@@ -2,32 +2,65 @@
 
 import Image from 'next/image'
 import React from 'react'
+import { motion } from 'framer-motion';
 
 function LogoSlide() {
     const names = [
-        { img: "https://html.awaikenthemes.com/corprate/images/icon-facility-item-1.svg", title: "Best financial advice" },
-        { img: "https://html.awaikenthemes.com/corprate/images/icon-facility-item-2.svg", title: "Innovative Approach" },
-        { img: "https://html.awaikenthemes.com/corprate/images/icon-facility-item-3.svg", title: "Client Centric Focused" },
-        { img: "https://html.awaikenthemes.com/corprate/images/icon-facility-item-4.svg", title: "Comprehensive Services" },
-        { img: "https://html.awaikenthemes.com/corprate/images/icon-facility-item-5.svg", title: "Sustainability" },
-        { img: "https://html.awaikenthemes.com/corprate/images/icon-facility-item-6.svg", title: "24/7 Maintenance" },
+        { img: "https://funplaysystems.com/images/corporates/Corporates-1.jpg",  },
+        { img: "https://funplaysystems.com/images/corporates/Corporates-2.jpg",},
+        { img: "https://funplaysystems.com/images/corporates/Corporates-3.jpg",  },
+        { img: "https://funplaysystems.com/images/corporates/Corporates-4.jpg", },
+        { img: "https://funplaysystems.com/images/corporates/Corporates-5.jpg", },
+        { img: "https://funplaysystems.com/images/corporates/Corporates-6.jpg",},
+        { img: "https://funplaysystems.com/images/corporates/Corporates-7.jpg",},
+        { img: "https://funplaysystems.com/images/corporates/Corporates-8.jpg",},
+        { img: "https://funplaysystems.com/images/corporates/Corporates-9.jpg",},
+        { img: "https://funplaysystems.com/images/corporates/Corporates-10.jpg",},
+        { img: "https://funplaysystems.com/images/corporates/Corporates-11.jpg",},
+        { img: "https://funplaysystems.com/images/corporates/Corporates-12.jpg",},
+        { img: "https://funplaysystems.com/images/corporates/Corporates-13.jpg",},
+        { img: "https://funplaysystems.com/images/corporates/Corporates-14.jpg",},
+        { img: "https://funplaysystems.com/images/corporates/Corporates-15.jpg",},
+        { img: "https://funplaysystems.com/images/corporates/Corporates-16.jpg",},
+        { img: "https://funplaysystems.com/images/corporates/Corporates-17.jpg",},
+        { img: "https://funplaysystems.com/images/corporates/Corporates-18.jpg",},
+        { img: "https://funplaysystems.com/images/corporates/Corporates-19.jpg",},
+        { img: "https://funplaysystems.com/images/corporates/Corporates-20.jpg",},
+        { img: "https://funplaysystems.com/images/corporates/Corporates-21.jpg",},
+        { img: "https://funplaysystems.com/images/corporates/Corporates-22.jpg",},
+        { img: "https://funplaysystems.com/images/corporates/Corporates-23.jpg",},
+        { img: "https://funplaysystems.com/images/corporates/Corporates-24.jpg",},
     ]
 
     return (
-        <div className="relative   bg-[url('https://html.awaikenthemes.com/corprate/images/testimonial-bg-image.png')] bg-secondary bg-repeat-x bg-cover  ">
-            <div className="overflow-hidden whitespace-nowrap w-full bg-gradient-to-b from-[#b3e0f5] to-[#e6f5fc] py-20">
-                <div className="flex gap-10 animate-slow-marquee">
+        <div className="relative   bg-[url('https://html.awaikenthemes.com/corprate/images/testimonial-bg-image.png')] bg-white   bg-repeat-x bg-cover  ">
+            <div className="overflow-hidden whitespace-nowrap w-full max-w-7xl mx-auto ">
+            <motion.h2 
+                    className="text-4xl md:text-5xl text-center font-bold mb-8 tracking-tight font-sans mt-10"
+                    initial={{ opacity: 0, y: -30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8 }}
+                >
+                    <span className="bg-clip-text text-transparent quicksand bg-gradient-to-r from-black to-gray-900">
+                    Clientele
+                    </span>
+                </motion.h2>
+                
+                <motion.div
+                    className="w-32 sm:w-40 h-1 bg-gradient-to-r from-black/0 via-gray-900/80 to-indigo-300/0 mx-auto mt-6 sm:mt-8 rounded-full"
+                    initial={{ scaleX: 0 }}
+                    animate={{ scaleX: 1 }}
+                    transition={{ duration: 1, delay: 0.5 }}
+                />
+                <div className="flex gap-10 animate-slow-marquee py-20 ">
                     {names.concat(names).map((item, index) => (
-                        <div key={index} className="flex flex-col items-center gap-3 min-w-[200px]">
-                            <Image
-                                priority
-                                height={40}
-                                width={40}
+                        <div key={index} className="flex flex-col items-center gap-3 min-w-[300px]">
+                            <img
                                 src={item.img}
                                 alt={item.title}
-                                className="w-14"
+                                className="w-80"
                             />
-                            <h2 className="font-bold text-lg text-blue-900">{item.title}</h2>
+                            {/* <h2 className="font-bold text-lg text-blue-900">{item.title}</h2> */}
                         </div>
                     ))}
                 </div>
@@ -42,7 +75,7 @@ function LogoSlide() {
                 }
                 .animate-slow-marquee {
                     display: inline-flex;
-                    animation: slow-marquee 10s linear infinite; /* Slower animation: 30 seconds */
+                    animation: slow-marquee 20s linear infinite; /* Slower animation: 30 seconds */
                 }
             `}</style>
             </div>

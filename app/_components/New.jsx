@@ -83,7 +83,7 @@ const New = () => (
                         ))}
                     </motion.div>
 
-                    <motion.div variants={itemVariants} initial="initial" whileHover="hover" className="relative bg-white p-6 mt-5 rounded-xl shadow-md border border-blue-100 hover:border-blue-300 transition-all duration-300 group">
+                    {/* <motion.div variants={itemVariants} initial="initial" whileHover="hover" className="relative bg-white p-6 mt-5 rounded-xl shadow-md border border-blue-100 hover:border-blue-300 transition-all duration-300 group">
                         <motion.div variants={imageVariants} className="absolute inset-0 z-0 opacity-50 rounded-xl group-hover:opacity-100 transition-opacity duration-500">
                             <img loading="lazy" src="https://img.freepik.com/free-photo/luxurious-villa-with-modern-architectural-design_23-2151694017.jpg?uid=R110556143&ga=GA1.1.1013345226.1744017707&semt=ais_hybrid&w=740" alt="img" className="w-full h-full object-cover rounded-xl" />
                             <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 via-gray-900/50 to-transparent rounded-xl" />
@@ -107,7 +107,7 @@ const New = () => (
                                 </motion.div>
                             </div>
                         </div>
-                    </motion.div>
+                    </motion.div> */}
                 </div>
 
             </div>

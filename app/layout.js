@@ -1,15 +1,12 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import {  Quicksand } from "next/font/google"; // Add Quicksand import
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const quicksand = Quicksand({
+  variable: "--font-quicksand",
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"], // Specify desired weights
 });
 
 export const metadata = {
@@ -21,7 +18,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={` ${quicksand.variable} antialiased`}
       >
         {children}
         <Toaster />

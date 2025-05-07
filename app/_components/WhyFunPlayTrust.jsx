@@ -88,7 +88,7 @@ function WhyFunPlayTrust() {
 
     return (
         <motion.div 
-            className="min-h-screen py-20 px-4 bg-gradient-to-b from-[#e6f5fc] to-[#b3e0f5] relative overflow-hidden"
+            className="min-h-screen py-20 px-4 bg-gradient-to-b from-[#e6f5fc] to-[#e6f5fc] relative overflow-hidden"
         >
             {/* Background Decorative Elements */}
           

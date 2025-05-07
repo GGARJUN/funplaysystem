@@ -14,7 +14,7 @@ export default function ProductHighlights() {
                 { label: "385m²", icon: "📏" },
                 { label: "21 USERS", icon: "👥" },
             ],
-            image: "https://funplaysystems.com/images/Card-Crook.jpg",
+            image: "https://funplaysystems.com/images/Toucan-2.jpg",
             bgColor: "bg-gradient-to-br from-blue-50 to-blue-100",
             borderColor: "border-blue-200"
         },
@@ -26,7 +26,7 @@ export default function ProductHighlights() {
                 { label: "420m²", icon: "📏" },
                 { label: "30 USERS", icon: "👥" },
             ],
-            image: "https://funplaysystems.com/images/Card-Pyramid-2.jpg",
+            image: "https://funplaysystems.com/images/Bellatrix-1.jpg",
             bgColor: "bg-gradient-to-br from-green-50 to-green-100",
             borderColor: "border-green-200"
         },
@@ -38,7 +38,7 @@ export default function ProductHighlights() {
                 { label: "250m²", icon: "📏" },
                 { label: "15 USERS", icon: "👥" },
             ],
-            image: "https://funplaysystems.com/images/Barrel.jpg",
+            image: "https://funplaysystems.com/images/paper-boat-200.jpg",
             bgColor: "bg-gradient-to-br from-purple-50 to-purple-100",
             borderColor: "border-purple-200"
         },
@@ -79,9 +79,9 @@ export default function ProductHighlights() {
     };
 
     return (
-        <div className="relative   bg-[url('https://html.awaikenthemes.com/corprate/images/testimonial-bg-image.png')] bg-secondary bg-repeat-x bg-cover  ">
+        <div className="relative   bg-[url('https://funplaysystems.com/images/Group11.svg')] bg-secondary bg-repeat-x bg-cover  ">
         <motion.div
-            className="min-h-screen py-16 sm:py-24 px-4 relative overflow-hidden"
+            className="min-h-screen py-16 sm:py-24 px-4 relative overflow-hidden bg-gradient-to-b from-[#e6f5fc] to-[#e6f5fc] "
         >
             {/* Background Decorative Elements */}
             <div className="absolute top-0 left-0 w-64 sm:w-96 h-64 sm:h-96 bg-blue-100/20 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
@@ -122,7 +122,7 @@ export default function ProductHighlights() {
                     transition={{ duration: 0.8 }}
                 >
                     <span className="bg-clip-text text-transparent quicksand bg-gradient-to-r from-black to-gray-900">
-                        Playgrounds That Fit Every Vision
+                    Explore Our Signature Play Units
                     </span>
                 </motion.h2>
                 <motion.div

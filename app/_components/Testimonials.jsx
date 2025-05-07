@@ -1,118 +1,48 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { motion } from "framer-motion";
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Pagination, Navigation } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/pagination';
-import { Quote } from 'lucide-react';
+import { User } from 'lucide-react';
+import { useState, useEffect } from 'react';
 
-export default function TestimonialsWhiteTheme() {
-    const testimonials = [
-        {
-            quote: 'FunPlay helped us create a magical zone for our preschool. The kids love it!',
-            author: 'Sneha R., School Principal, Bengaluru',
-            rating: 5
-        },
-        {
-            quote: 'The Bellatrix unit was installed in just 4 days! Amazing support and finish.',
-            author: 'Ramesh G., Society Secretary, Pune',
-            rating: 5
-        },
-        {
-            quote: 'We used Ultaghar for our mall daycare—zero complaints and full marks on design.',
-            author: 'Meenal S., Interior Designer, Hyderabad',
-            rating: 5
-        },
-        {
-            quote: 'Exceptional quality and service. Our community playground is now the talk of the town!',
-            author: 'Arjun M., Resident Welfare President, Delhi',
-            rating: 5
-        },
-        {
-            quote: 'Transformed our empty rooftop into a vibrant play area. Highly recommended!',
-            author: 'Priya K., Hotel Manager, Goa',
-            rating: 5
-        }
-    ];
+export default function TestimonialsSection() {
+  const statsVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.8 } }
+  };
 
-    const cardVariants = {
-        hidden: {
-            opacity: 0,
-            y: 50,
-            rotateX: 15,
-            filter: "blur(4px)"
-        },
-        visible: {
-            opacity: 1,
-            y: 0,
-            rotateX: 0,
-            filter: "blur(0px)",
-            transition: {
-                duration: 0.8,
-                ease: [0.16, 1, 0.3, 1],
-                rotateX: { duration: 0.6 }
-            }
-        },
-        hover: {
-            y: -10,
-            boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.1)",
-            transition: {
-                duration: 0.4,
-                ease: [0.33, 1, 0.68, 1]
-            }
-        }
-    };
+  const cardVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+    hover: { y: -5, transition: { duration: 0.3 } }
+  };
 
-    const starVariants = {
-        hidden: { scale: 0 },
-        visible: (i) => ({
-            scale: 1,
-            transition: {
-                delay: i * 0.1,
-                type: "spring",
-                stiffness: 300,
-                damping: 10
-            }
-        }),
-        hover: {
-            scale: 1.2,
-            transition: { type: "spring", stiffness: 500 }
-        }
-    };
+  const imageVariants = {
+    hidden: { opacity: 0, scale: 0.8 },
+    visible: { opacity: 1, scale: 1, transition: { duration: 0.5 } }
+  };
 
-    return (
-        <section className="py-16 sm:py-20 md:py-24 bg-gradient-to-b from-white to-gray-50 relative overflow-hidden">
-            {/* Floating decorative elements */}
-            <motion.div
-                className="absolute top-1/4 left-1/5 w-12 sm:w-16 h-12 sm:h-16 rounded-full border border-gray-200/30 backdrop-blur-sm"
-                animate={{
-                    y: [0, -20, 0],
-                    opacity: [0.1, 0.2, 0.1],
-                }}
-                transition={{
-                    duration: 8,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                }}
-            />
+  const testimonials = [
+    { img: "https://funplaysystems.com/images/c1.png" },
+    { img: "https://funplaysystems.com/images/c4.png" },
+    { img: "https://funplaysystems.com/images/c3.png" },
+    { img: "https://funplaysystems.com/images/c2.png" },
+  ];
 
-            <motion.div
-                className="absolute bottom-1/5 right-1/4 w-10 sm:w-12 h-10 sm:h-12 rounded-full border border-gray-200/30 backdrop-blur-sm"
-                animate={{
-                    scale: [1, 1.1, 1],
-                    opacity: [0.1, 0.2, 0.1],
-                }}
-                transition={{
-                    duration: 6,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                }}
-            />
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-            <div className="relative max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-                <motion.h2
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % testimonials.length);
+    }, 2000); // Change image every 1 second
+
+    return () => clearInterval(interval); // Cleanup interval on component unmount
+  }, [testimonials.length]);
+
+  return (
+    <section className="py-16 sm:py-20 bg-gradient-to-b from-blue-50 to-white relative">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+      <motion.h2
                     className="text-3xl sm:text-4xl md:text-5xl text-center font-bold mb-6 sm:mb-8 tracking-tight font-sans"
                     initial={{ opacity: 0, y: -30 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -128,101 +58,138 @@ export default function TestimonialsWhiteTheme() {
                     animate={{ scaleX: 1 }}
                     transition={{ duration: 1, delay: 0.5 }}
                 />
-                <div className="h-96 w-40 rounded-t-full absolute top-0 ">
-                    <img src="https://img.freepik.com/free-photo/handsome-elegant-man-car-salon_1157-20995.jpg?uid=R110556143&ga=GA1.1.1013345226.1744017707&semt=ais_hybrid&w=740" alt="" className="object-cover rounded-t-full" />
-                </div>
-                <div className="h-96 w-40 rounded-t-full absolute -bottom-60 right-0">
-                    <img src="https://img.freepik.com/free-photo/close-up-women-working-with-laptop_23-2149300684.jpg?uid=R110556143&ga=GA1.1.1013345226.1744017707&semt=ais_hybrid&w=740" alt="" className="object-cover rounded-t-full" />
-                </div>
-
-                {/* Ultra Swiper */}
-                <div className="relative pt-12 sm:pt-16 md:pt-20">
-                    <Swiper
-                        modules={[Autoplay, Pagination, Navigation]}
-                        spaceBetween={20}
-                        slidesPerView={1}
-                        centeredSlides={true}
-                        loop={true}
-                        autoplay={{
-                            delay: 5000,
-                            disableOnInteraction: false,
-                        }}
-                        pagination={{
-                            clickable: true,
-                            bulletClass: 'swiper-pagination-bullet bg-gray-300',
-                            bulletActiveClass: 'swiper-pagination-bullet-active bg-gray-600',
-                        }}
-                        navigation={{
-                            nextEl: '.swiper-button-next',
-                            prevEl: '.swiper-button-prev',
-                        }}
-                        breakpoints={{
-                            640: { slidesPerView: 1 },
-                            1024: { slidesPerView: 1 },
-                            1280: { slidesPerView: 1 },
-                        }}
-                        className="!pb-12 sm:!pb-16 w-full"
-                    >
-                        {testimonials.map((item, index) => (
-                            <SwiperSlide key={index} className="!h-auto py-4">
-                                <motion.div
-                                    variants={cardVariants}
-                                    initial="hidden"
-                                    whileInView="visible"
-                                    whileHover="hover"
-                                    viewport={{ once: true }}
-                                    className="h-full w-full max-w-[800px] mx-auto"
-                                >
-                                    <Card className="relative bg-white/90 backdrop-blur-sm border border-gray-200/50 overflow-hidden group h-full shadow-md">
-                                        {/* Hover Effect Layer */}
-                                        <div className="absolute inset-0 bg-gradient-to-br from-gray-50/20 to-gray-200/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-
-                                        {/* Quote Icon */}
-                                        <div className="absolute top-4 sm:top-6 right-4 sm:right-6 text-gray-300/50 group-hover:text-gray-400/70 transition-colors duration-300">
-                                            <Quote className="w-8 sm:w-12 h-8 sm:h-12" />
-                                        </div>
-
-                                        <CardHeader className="pt-8 sm:pt-10 pb-3 sm:pb-4 px-6 sm:px-8">
-                                            <div className="flex mb-3 sm:mb-4">
-                                                {[...Array(item.rating)].map((_, i) => (
-                                                    <motion.div
-                                                        key={i}
-                                                        custom={i}
-                                                        variants={starVariants}
-                                                        initial="hidden"
-                                                        whileInView="visible"
-                                                        whileHover="hover"
-                                                        viewport={{ once: true }}
-                                                        className="text-yellow-400 text-lg sm:text-xl"
-                                                    >
-                                                        ★
-                                                    </motion.div>
-                                                ))}
-                                            </div>
-                                            <CardTitle className="text-base sm:text-lg font-medium text-gray-800 italic leading-relaxed">
-                                                “{item.quote}”
-                                            </CardTitle>
-                                        </CardHeader>
-                                        <CardContent className="pb-6 sm:pb-8 px-6 sm:px-8">
-                                            <p className="text-gray-700 font-semibold text-sm sm:text-base">{item.author}</p>
-                                        </CardContent>
-
-                                        {/* Decorative Elements */}
-                                        <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-gray-300/50 to-transparent"></div>
-                                    </Card>
-                                </motion.div>
-                            </SwiperSlide>
-                        ))}
-                    </Swiper>
-
-                    {/* Custom Navigation */}
-                    <div className="swiper-button-prev !text-gray-600 !left-0 sm:!left-2 after:!text-lg sm:after:!text-xl"></div>
-                    <div className="swiper-button-next !text-gray-600 !right-0 sm:!right-2 after:!text-lg sm:after:!text-xl"></div>
-                </div>
+        {/* Stats Section */}
+        <div className="flex flex-col sm:flex-row justify-between items-center mb-12 sm:mb-16 mt-10">
+          <motion.div
+            variants={statsVariants}
+            initial="hidden"
+            animate="visible"
+            className="flex items-center space-x-4 mb-6 sm:mb-0"
+          >
+            
+            <div className="relative w-16 h-16 sm:w-[160px] sm:h-40 rounded-full overflow-hidden bg-gray-200">
+              <motion.img
+                key={currentImageIndex} // Key ensures animation triggers on image change
+                src={testimonials[currentImageIndex].img}
+                alt="Client"
+                className="w-full h-full object-cover"
+                variants={imageVariants}
+                initial="hidden"
+                animate="visible"
+              />
             </div>
+            <div>
+              <h3 className="text-lg  font-bold text-gray-800">
+                Enjoyed by over <span className="text-purple-600">25,000+</span><br />
+                happy customers are using our products.
+              </h3>
+    
+            </div>
+          </motion.div>
 
-            {/* Bottom Gradient */}
-            <div className="absolute bottom-0 left-0 right-0 h-24 sm:h-32 bg-gradient-to-t from-gray-50 to-transparent pointer-events-none"></div>
-        </section>
-    );
+          <motion.div
+            variants={statsVariants}
+            initial="hidden"
+            animate="visible"
+            className="mb-6 sm:mb-0"
+          >
+            <h3 className="text-2xl sm:text-3xl font-bold text-gray-800 ">
+              200+
+            </h3>
+            <p className="text-lg sm:text-xl text-gray-600 max-w-40">Projects with innovative designs.</p>
+          </motion.div>
+
+          <motion.div
+            variants={statsVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            <h3 className="text-2xl sm:text-3xl font-bold text-gray-800 flex items-center">
+              4.9
+              <span className="ml-2 text-yellow-400">★★★★★</span>
+            </h3>
+            <p className="text-lg sm:text-xl max-w-40 text-gray-600">Average rating from thousands of happy clients.</p>
+          </motion.div>
+        </div>
+
+        {/* Testimonials Section */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+          <motion.div
+            variants={cardVariants}
+            initial="hidden"
+            whileInView="visible"
+            whileHover="hover"
+            viewport={{ once: true }}
+          >
+            <Card className="bg-white/90 border border-gray-200/50 shadow-md rounded-lg">
+              <CardContent className="p-6">
+                <p className="text-gray-700 italic text-sm sm:text-base mb-4">
+                  "Fun Play Systems Pvt. Ltd. has been instrumental in helping us tailor our playground structures within budget while adding popular elements. Their expertise and professionalism are impressive."
+                </p>
+                <div className="flex items-center">
+                  <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center mr-3">
+                    <User className="w-5 h-5 text-gray-600" />
+                  </div>
+                  <div>
+                    <p className="text-gray-800 font-semibold text-sm sm:text-base">Nayan Shah</p>
+                    <p className="text-gray-600 text-xs sm:text-sm">Damji Shamji Shah Group</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+
+          <motion.div
+            variants={cardVariants}
+            initial="hidden"
+            whileInView="visible"
+            whileHover="hover"
+            viewport={{ once: true }}
+          >
+            <Card className="bg-white/90 border border-gray-200/50 shadow-md rounded-lg">
+              <CardContent className="p-6">
+                <p className="text-gray-700 italic text-sm sm:text-base mb-4">
+                  "We at Jaideep Construction have been using Fun Play Systems’ equipment for its safety, aesthetics, and durability. From product selection to after-sales service, their support has been exceptional. We highly recommend Fun Play Systems."
+                </p>
+                <div className="flex items-center">
+                  <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center mr-3">
+                    <User className="w-5 h-5 text-gray-600" />
+                  </div>
+                  <div>
+                    <p className="text-gray-800 font-semibold text-sm sm:text-base">Customer</p>
+                    <p className="text-gray-600 text-xs sm:text-sm">Jaideep Construction</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+
+          <motion.div
+            variants={cardVariants}
+            initial="hidden"
+            whileInView="visible"
+            whileHover="hover"
+            viewport={{ once: true }}
+          >
+            <Card className="bg-white/90 border border-gray-200/50 shadow-md rounded-lg">
+              <CardContent className="p-6">
+                <p className="text-gray-700 italic text-sm sm:text-base mb-4">
+                  "The Multi-activity design from Fun Play Systems has been a huge hit. The children enjoy the spacious, well-designed play area, which has positively impacted their outdoor play."
+                </p>
+                <div className="flex items-center">
+                  <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center mr-3">
+                    <User className="w-5 h-5 text-gray-600" />
+                  </div>
+                  <div>
+                    <p className="text-gray-800 font-semibold text-sm sm:text-base">Sanjay S. Deshmukh</p>
+                    <p className="text-gray-600 text-xs sm:text-sm">Urja Hospitality LLP</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
 }
