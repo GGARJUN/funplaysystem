@@ -18,7 +18,7 @@ export default function FinalCTA() {
         }),
         hover: {
             scale: 1.05,
-            boxShadow: "0 0 20px rgba(255, 255, 255, 0.3)",
+            boxShadow: "0 0 20px rgba(123, 200, 237, 0.5)",
             transition: {
                 duration: 0.3,
                 ease: [0.33, 1, 0.68, 1],
@@ -28,13 +28,13 @@ export default function FinalCTA() {
     };
 
     return (
-        <section className="relative py-24 px-6 bg-gradient-to-br from-[#d9f0ff] via-[#a3d8f4] to-[#7cc1ed] overflow-hidden text-center">
+        <section className="relative py-16 sm:py-20 md:py-24 px-4 sm:px-6 bg-gradient-to-br from-white via-[#E6F5FC] to-[#B3E0F5] overflow-hidden text-center">
             {/* Background Effects */}
-            <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJncmFpbiIgd2lkdGg9IjEwIiBoZWlnaHQ9IjEwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNIDAgMTAgTCAxMCAwIE0gLTEgMSBMIDEgLTEgTSAxMSA5IEwgOSAxMSIgc3Ryb2tlPSJyZ2JhKDAsMCwwLDAuMDMpIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IGZpbGw9InVybCgjZ3JhaW4pIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIi8+PC9zdmc+')] opacity-10"></div>
-            
+            <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJncmFpbiIgd2lkdGg9IjEwIiBoZWlnaHQ9IjEwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNIDAgMTAgTCAxMCAwIE0gLTEgMSBMIDEgLTEgTSAxMSA5IEwgOSAxMSIgc3Ryb2tlPSJyZ2JhKDAsMCwwLDAuMDUpIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IGZpbGw9InVybCgjZ3JhaW4pIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIi8+PC9zdmc+')] opacity-10"></div>
+
             {/* Animated Floating Elements */}
             <motion.div
-                className="absolute top-1/5 left-1/4 w-24 h-24 rounded-full bg-gradient-to-br from-blue-300/30 to-transparent blur-xl"
+                className="absolute top-1/5 left-1/4 w-16 sm:w-24 h-16 sm:h-24 rounded-full bg-gradient-to-br from-[#7CC1ED]/20 to-transparent blur-xl"
                 animate={{
                     y: [0, -30, 0],
                     opacity: [0.3, 0.5, 0.3],
@@ -46,7 +46,7 @@ export default function FinalCTA() {
                 }}
             />
             <motion.div
-                className="absolute bottom-1/5 right-1/4 w-16 h-16 rounded-full bg-gradient-to-br from-blue-400/30 to-transparent blur-xl"
+                className="absolute bottom-1/5 right-1/4 w-12 sm:w-16 h-12 sm:h-16 rounded-full bg-gradient-to-br from-[#B3E0F5]/20 to-transparent blur-xl"
                 animate={{
                     scale: [1, 1.2, 1],
                     opacity: [0.3, 0.5, 0.3],
@@ -59,17 +59,27 @@ export default function FinalCTA() {
             />
 
             <div className="relative max-w-3xl mx-auto">
-                {/* Animated Headline */}
-                <motion.h2
-                    className="text-4xl md:text-5xl font-extrabold mb-6 tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-blue-700"
+
+            <motion.h2
+                    className="text-3xl sm:text-4xl md:text-5xl text-center font-bold mb-6 sm:mb-8 tracking-tight font-sans"
                     initial={{ opacity: 0, y: -30 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                    transition={{ duration: 0.8 }}
                 >
+                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-700">
                     Ready to Build Your Dream Play Space?
+                    </span>
                 </motion.h2>
+                <motion.div
+                    className="w-32 sm:w-40 h-1 bg-gradient-to-r from-gray-900/0 via-gray-900/80 to-gray-300/0 mx-auto mt-6 sm:mt-8 rounded-full"
+                    initial={{ scaleX: 0 }}
+                    animate={{ scaleX: 1 }}
+                    transition={{ duration: 1, delay: 0.5 }}
+                />
+                {/* Animated Headline */}
+
                 <motion.p
-                    className="text-lg md:text-xl mb-10 text-gray-800 font-medium"
+                    className="text-lg sm:text-xl md:text-2xl mb-10 text-gray-800 font-medium mt-10"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.2 }}
@@ -87,9 +97,9 @@ export default function FinalCTA() {
                         whileHover="hover"
                         whileTap="tap"
                     >
-                        <Button className="relative bg-gradient-to-r from-yellow-300/80 to-yellow-500/80 text-gray-900 hover:from-yellow-400/90 hover:to-yellow-600/90 px-8 py-4 rounded-full text-lg font-semibold shadow-lg backdrop-blur-sm border border-white/20 overflow-hidden group">
+                        <Button className="relative bg-gradient-to-r from-white to-[#E6F5FC] text-gray-900 hover:from-white hover:to-[#B3E0F5] px-6 sm:px-8 py-3 sm:py-4 rounded-full text-base sm:text-lg font-semibold shadow-lg backdrop-blur-sm border border-[#7CC1ED]/30 overflow-hidden group">
                             <span className="relative z-10">Book a Free Site Visit</span>
-                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#7CC1ED]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                         </Button>
                     </motion.div>
                     <motion.div
@@ -100,9 +110,9 @@ export default function FinalCTA() {
                         whileHover="hover"
                         whileTap="tap"
                     >
-                        <Button className="relative bg-gradient-to-r from-blue-600/80 to-blue-800/80 hover:from-blue-700/90 hover:to-blue-900/90 text-white px-8 py-4 rounded-full text-lg font-semibold shadow-lg backdrop-blur-sm border border-white/20 overflow-hidden group">
+                        <Button className="relative bg-gradient-to-r from-[#7CC1ED]/90 to-[#B3E0F5]/90 hover:from-[#7CC1ED] hover:to-[#E6F5FC] text-gray-900 px-6 sm:px-8 py-3 sm:py-4 rounded-full text-base sm:text-lg font-semibold shadow-lg backdrop-blur-sm border border-[#7CC1ED]/30 overflow-hidden group">
                             <span className="relative z-10">Download Product Catalogue</span>
-                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                         </Button>
                     </motion.div>
                     <motion.div
@@ -113,9 +123,9 @@ export default function FinalCTA() {
                         whileHover="hover"
                         whileTap="tap"
                     >
-                        <Button className="relative bg-gradient-to-r from-green-500/80 to-green-700/80 hover:from-green-600/90 hover:to-green-800/90 text-white px-8 py-4 rounded-full text-lg font-semibold shadow-lg backdrop-blur-sm border border-white/20 overflow-hidden group">
+                        <Button className="relative bg-gradient-to-r from-white to-[#E6F5FC] text-gray-900 hover:from-white hover:to-[#B3E0F5] px-6 sm:px-8 py-3 sm:py-4 rounded-full text-base sm:text-lg font-semibold shadow-lg backdrop-blur-sm border border-[#7CC1ED]/30 overflow-hidden group">
                             <span className="relative z-10">Talk to an Expert</span>
-                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#7CC1ED]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                         </Button>
                     </motion.div>
                 </div>

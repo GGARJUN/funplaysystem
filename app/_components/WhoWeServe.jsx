@@ -123,7 +123,7 @@ export default function WhoWeServeLight() {
 
             <div className="relative max-w-7xl mx-auto">
                 <motion.h2
-                    className="text-4xl md:text-5xl text-center font-bold mb-8 tracking-tight font-sans"
+                    className="text-3xl sm:text-4xl md:text-5xl text-center font-bold mb-8 tracking-tight font-sans"
                     initial={{ opacity: 0, y: -30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8 }}
@@ -203,44 +203,6 @@ export default function WhoWeServeLight() {
                         ))}
                     </Swiper>
                 </div>
-
-                {/* CTA Section */}
-                <motion.div
-                    className="text-center mt-12"
-                    initial={{ opacity: 0, y: 15 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.3 }}
-                >
-                    <p className="text-lg font-medium text-gray-600 mb-6">
-                        Need a unique solution? Let's co-create your space.
-                    </p>
-                    <div className="flex flex-col sm:flex-row justify-center gap-4">
-                        <motion.div
-                            custom={0}
-                            variants={buttonVariants}
-                            initial="hidden"
-                            animate="visible"
-                            whileHover="hover"
-                            whileTap="tap"
-                        >
-                            <Button className="bg-white hover:bg-gray-900 hover:text-white text-gray-900 border border-gray-200 rounded-full px-8 py-3 font-medium tracking-wide shadow-sm transition-all duration-300">
-                                Schedule a Call
-                            </Button>
-                        </motion.div>
-                        <motion.div
-                            custom={1}
-                            variants={buttonVariants}
-                            initial="hidden"
-                            animate="visible"
-                            whileHover="hover"
-                            whileTap="tap"
-                        >
-                            <Button className="bg-white hover:bg-gray-900 hover:text-white text-gray-900 border border-gray-200 rounded-full px-8 py-3 font-medium tracking-wide shadow-sm transition-all duration-300">
-                                Live Chat
-                            </Button>
-                        </motion.div>
-                    </div>
-                </motion.div>
             </div>
         </section>
     );

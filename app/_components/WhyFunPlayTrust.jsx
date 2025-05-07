@@ -106,8 +106,8 @@ function WhyFunPlayTrust() {
                     </span>
                 </motion.h2>
                 
-                <motion.div 
-                    className="w-32 h-1 bg-gradient-to-r from-black to-gray-900 mx-auto mt-4 rounded-full"
+                <motion.div
+                    className="w-32 sm:w-40 h-1 bg-gradient-to-r from-black/0 via-gray-900/80 to-indigo-300/0 mx-auto mt-6 sm:mt-8 rounded-full"
                     initial={{ scaleX: 0 }}
                     animate={{ scaleX: 1 }}
                     transition={{ duration: 1, delay: 0.5 }}
