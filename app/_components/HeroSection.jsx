@@ -21,8 +21,8 @@ export default function HeroSectionWithForm() {
 
     const images = [
         "https://funplaysystems.com/images/contactbanner.jpg",
-        "https://images.unsplash.com/photo-1542887486-c0aeb6d2fc46?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-        "https://images.unsplash.com/photo-1605106702734-205df224ecce?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+        "https://funplaysystems.com/images/CoreCraft-Cover-Image.jpg",
+        "	https://funplaysystems.com/images/og-banner.jpg"
     ];
 
     return (
@@ -33,7 +33,7 @@ export default function HeroSectionWithForm() {
                     modules={[Autoplay]}
                     loop={true}
                     autoplay={{
-                        delay: 3000,
+                        delay: 1000,
                         disableOnInteraction: false,
                     }}
                     speed={1500}
