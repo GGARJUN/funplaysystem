@@ -22,7 +22,7 @@ export default function HeroSectionWithForm() {
     const images = [
         "https://funplaysystems.com/images/contactbanner.jpg",
         "https://funplaysystems.com/images/CoreCraft-Cover-Image.jpg",
-        "	https://funplaysystems.com/images/og-banner.jpg"
+        "https://funplaysystems.com/images/og-banner.jpg"
     ];
 
     return (
