@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { CircleArrowRight } from 'lucide-react';
 
@@ -86,19 +86,40 @@ function WhyFunPlayTrust() {
         }
     };
 
+    const [isVisible, setIsVisible] = useState(false);
+    const ref = useRef(null);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                setIsVisible(entry.isIntersecting);
+            },
+            { threshold: 0.3 } // Trigger when 30% of the section is visible
+        );
+
+        if (ref.current) {
+            observer.observe(ref.current);
+        }
+
+        return () => {
+            if (ref.current) {
+                observer.unobserve(ref.current);
+            }
+        };
+    }, []);
+
     return (
         <motion.div 
+            ref={ref}
             className="min-h-screen py-20 px-4 bg-gradient-to-b from-[#e6f5fc] to-[#e6f5fc] relative overflow-hidden"
         >
-            {/* Background Decorative Elements */}
-          
             <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#e74c3c]/20 rounded-full translate-x-1/2 translate-y-1/2"></div>
 
             <div className="max-w-7xl mx-auto relative z-10">
                 <motion.h2 
                     className="text-4xl md:text-5xl text-center font-bold mb-8 tracking-tight font-sans"
                     initial={{ opacity: 0, y: -30 }}
-                    animate={{ opacity: 1, y: 0 }}
+                    animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: -30 }}
                     transition={{ duration: 0.8 }}
                 >
                     <span className="bg-clip-text text-transparent quicksand bg-gradient-to-r from-black to-gray-900">
@@ -109,7 +130,7 @@ function WhyFunPlayTrust() {
                 <motion.div
                     className="w-32 sm:w-40 h-1 bg-gradient-to-r from-black/0 via-gray-900/80 to-indigo-300/0 mx-auto mt-6 sm:mt-8 rounded-full"
                     initial={{ scaleX: 0 }}
-                    animate={{ scaleX: 1 }}
+                    animate={isVisible ? { scaleX: 1 } : { scaleX: 0 }}
                     transition={{ duration: 1, delay: 0.5 }}
                 />
 
@@ -117,7 +138,7 @@ function WhyFunPlayTrust() {
                     className="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 relative"
                     variants={container}
                     initial="hidden"
-                    animate="visible"
+                    animate={isVisible ? "visible" : "hidden"}
                 >
                     {products.map((product, index) => (
                         <motion.div
@@ -126,11 +147,11 @@ function WhyFunPlayTrust() {
                             variants={cardItem}
                             whileHover={cardHover}
                             style={{
-                                marginTop: index % 2 === 0 ? '0px' : '40px' // Staggered positioning
+                                marginTop: index % 2 === 0 ? '0px' : '40px'
                             }}
                         >
                             <div
-                                className={`w-56 h-56 rounded-full ${product.bgColor} flex items-center justify-center mb-6 shadow-2xl relative overflow-hidden  transition-all duration-300`}
+                                className={`w-56 h-56 rounded-full ${product.bgColor} flex items-center justify-center mb-6 shadow-2xl relative overflow-hidden transition-all duration-300`}
                             >
                                 <motion.div
                                     className="text-8xl group-hover:opacity-50 transition-opacity duration-300"

@@ -23,9 +23,10 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-import { useState } from "react";
+import { useInView } from "react-intersection-observer";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
+import { useState } from "react";
 
 const formSchema = z.object({
     fullname: z.string().min(2, "Full name must be at least 2 characters").max(100),
@@ -37,6 +38,11 @@ const formSchema = z.object({
 });
 
 export default function LeadForm() {
+    const [ref, inView] = useInView({
+        triggerOnce: false,
+        threshold: 0.3,
+    });
+
     const form = useForm({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -90,32 +96,39 @@ export default function LeadForm() {
     }
 
     // Animation variants
-    const containerVariants = {
-        hidden: { opacity: 0 },
+    const headingVariants = {
+        hidden: { opacity: 0, y: -30 },
         visible: {
             opacity: 1,
+            y: 0,
             transition: {
-                staggerChildren: 0.1,
-                delayChildren: 0.3
+                duration: 0.8,
+                ease: "easeOut"
             }
         }
     };
 
-    const fieldVariants = {
-        hidden: { opacity: 0, y: 20, filter: "blur(2px)" },
+    const dividerVariants = {
+        hidden: { scaleX: 0 },
+        visible: {
+            scaleX: 1,
+            transition: {
+                duration: 1,
+                delay: 0.5,
+                ease: "easeOut"
+            }
+        }
+    };
+
+    const formVariants = {
+        hidden: { opacity: 0, y: 50, filter: "blur(2px)" },
         visible: {
             opacity: 1,
             y: 0,
             filter: "blur(0px)",
             transition: {
-                duration: 0.6,
+                duration: 0.8,
                 ease: "easeOut"
-            }
-        },
-        hover: {
-            scale: 1.02,
-            transition: {
-                duration: 0.3
             }
         }
     };
@@ -132,18 +145,18 @@ export default function LeadForm() {
     };
 
     return (
-        <div className="relative   bg-[url('https://funplaysystems.com/images/Group11.svg')] bg-blue-200/20 bg-repeat-x bg-cover  ">
-            <section className="relative py-16 sm:py-20 px-4 sm:px-6  overflow-hidden">
+        <div className="relative bg-[url('https://funplaysystems.com/images/Group77.svg')] bg-blue-200/20 bg-no-repeat bg-cover">
+            <section ref={ref} className="relative py-16 sm:py-20 px-4 sm:px-6 overflow-hidden">
                 {/* Background Decorative Elements */}
                 <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJncmFpbiIgd2lkdGg9IjEwIiBoZWlnaHQ9IjEwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNIDAgMTAgTCAxMCAwIE0gLTEgMSBMIDEgLTEgTSAxMSA5IEwgOSAxMSIgc3Ryb2tlPSJyZ2JhKDAsMCwwLDAuMDMpIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IGZpbGw9InVybCgjZ3JhaW4pIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIi8+PC9zdmc+')] opacity-5"></div>
 
                 {/* Floating Elements */}
                 <motion.div
                     className="absolute top-1/4 left-1/5 w-16 sm:w-24 h-16 sm:h-24 rounded-full bg-gradient-to-br from-blue-300/10 to-transparent blur-xl"
-                    animate={{
+                    animate={inView ? {
                         y: [0, -30, 0],
                         opacity: [0.2, 0.4, 0.2],
-                    }}
+                    } : {}}
                     transition={{
                         duration: 8,
                         repeat: Infinity,
@@ -152,10 +165,10 @@ export default function LeadForm() {
                 />
                 <motion.div
                     className="absolute bottom-1/5 right-1/4 w-12 sm:w-16 h-12 sm:h-16 rounded-full bg-gradient-to-br from-blue-300/10 to-transparent blur-xl"
-                    animate={{
+                    animate={inView ? {
                         scale: [1, 1.15, 1],
                         opacity: [0.2, 0.4, 0.2],
-                    }}
+                    } : {}}
                     transition={{
                         duration: 6,
                         repeat: Infinity,
@@ -167,17 +180,17 @@ export default function LeadForm() {
                     <div className="text-center mb-12">
                         <motion.h2
                             className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 sm:mb-8 tracking-tight font-sans text-transparent bg-clip-text bg-gradient-to-r from-gray-800 to-gray-600"
-                            initial={{ opacity: 0, y: -30 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.8 }}
+                            variants={headingVariants}
+                            initial="hidden"
+                            animate={inView ? "visible" : "hidden"}
                         >
                             Get a Free Custom Quote in 30 Seconds
                         </motion.h2>
                         <motion.div
                             className="w-32 sm:w-40 h-1 bg-gradient-to-r from-gray-300/0 via-gray-600/80 to-gray-300/0 mx-auto mt-6 sm:mt-8 rounded-full"
-                            initial={{ scaleX: 0 }}
-                            animate={{ scaleX: 1 }}
-                            transition={{ duration: 1, delay: 0.5 }}
+                            variants={dividerVariants}
+                            initial="hidden"
+                            animate={inView ? "visible" : "hidden"}
                         />
                     </div>
 
@@ -185,161 +198,146 @@ export default function LeadForm() {
                         <motion.form
                             onSubmit={form.handleSubmit(onSubmit)}
                             className="space-y-6 bg-gray-50 backdrop-blur-xl rounded-xl shadow-lg p-6 md:p-10 border border-gray-200/50 relative overflow-hidden"
-                            variants={containerVariants}
+                            variants={formVariants}
                             initial="hidden"
-                            animate="visible"
+                            animate={inView ? "visible" : "hidden"}
                         >
-                            {/* Subtle Overlay */}
-
-
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <motion.div variants={fieldVariants} whileHover="hover">
-                                    <FormField
-                                        control={form.control}
-                                        name="fullname"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel className="font-medium text-gray-900 text-2xl flex items-center gap-2">
-                                                    <User className="w-5 h-5 text-gray-600" />
-                                                    Full Name *
-                                                </FormLabel>
-                                                <FormControl>
-                                                    <Input
-                                                        placeholder="John Doe"
-                                                        className="h-20 bg-white text-gray-800  border-gray-300 focus:ring-blue-300 focus:border-blue-300 transition-all duration-300 rounded-none"
-                                                        {...field}
-                                                    />
-                                                </FormControl>
-                                                <FormMessage className="text-red-500" />
-                                            </FormItem>
-                                        )}
-                                    />
-                                </motion.div>
+                                <FormField
+                                    control={form.control}
+                                    name="fullname"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel className="font-medium text-gray-900 text-2xl flex items-center gap-2">
+                                                <User className="w-5 h-5 text-gray-600" />
+                                                Full Name *
+                                            </FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    placeholder="John Doe"
+                                                    className="h-20 bg-white text-gray-800 border-gray-300 focus:ring-blue-300 focus:border-blue-300 transition-all duration-300 rounded-none"
+                                                    {...field}
+                                                />
+                                            </FormControl>
+                                            <FormMessage className="text-red-500" />
+                                        </FormItem>
+                                    )}
+                                />
 
-                                <motion.div variants={fieldVariants} whileHover="hover">
-                                    <FormField
-                                        control={form.control}
-                                        name="phone"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel className="font-medium text-gray-900 text-2xl flex items-center gap-2">
-                                                    <Phone className="w-5 h-5 text-gray-600" />
-                                                    Phone / WhatsApp *
-                                                </FormLabel>
-                                                <FormControl>
-                                                    <Input
-                                                        placeholder="+91 9876543210"
-                                                        className="h-20 bg-white text-gray-800 border-gray-300 focus:ring-blue-300 focus:border-blue-300 transition-all duration-300 rounded-none"
-                                                        {...field}
-                                                    />
-                                                </FormControl>
-                                                <FormMessage className="text-red-500" />
-                                            </FormItem>
-                                        )}
-                                    />
-                                </motion.div>
+                                <FormField
+                                    control={form.control}
+                                    name="phone"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel className="font-medium text-gray-900 text-2xl flex items-center gap-2">
+                                                <Phone className="w-5 h-5 text-gray-600" />
+                                                Phone / WhatsApp *
+                                            </FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    placeholder="+91 9876543210"
+                                                    className="h-20 bg-white text-gray-800 border-gray-300 focus:ring-blue-300 focus:border-blue-300 transition-all duration-300 rounded-none"
+                                                    {...field}
+                                                />
+                                            </FormControl>
+                                            <FormMessage className="text-red-500" />
+                                        </FormItem>
+                                    )}
+                                />
 
-                                <motion.div variants={fieldVariants} whileHover="hover">
-                                    <FormField
-                                        control={form.control}
-                                        name="email"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel className="font-medium text-gray-900 text-2xl flex items-center gap-2">
-                                                    <Mail className="w-5 h-5 text-gray-600" />
-                                                    Email Address *
-                                                </FormLabel>
-                                                <FormControl>
-                                                    <Input
-                                                        placeholder="your@email.com"
-                                                        type="email"
-                                                        className="h-20 bg-white text-gray-800 border-gray-300 focus:ring-blue-300 focus:border-blue-300 transition-all duration-300 rounded-none"
-                                                        {...field}
-                                                    />
-                                                </FormControl>
-                                                <FormMessage className="text-red-500" />
-                                            </FormItem>
-                                        )}
-                                    />
-                                </motion.div>
+                                <FormField
+                                    control={form.control}
+                                    name="email"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel className="font-medium text-gray-900 text-2xl flex items-center gap-2">
+                                                <Mail className="w-5 h-5 text-gray-600" />
+                                                Email Address *
+                                            </FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    placeholder="your@email.com"
+                                                    type="email"
+                                                    className="h-20 bg-white text-gray-800 border-gray-300 focus:ring-blue-300 focus:border-blue-300 transition-all duration-300 rounded-none"
+                                                    {...field}
+                                                />
+                                            </FormControl>
+                                            <FormMessage className="text-red-500" />
+                                        </FormItem>
+                                    )}
+                                />
 
-                                <motion.div variants={fieldVariants} whileHover="hover">
-                                    <FormField
-                                        control={form.control}
-                                        name="location"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel className="font-medium text-gray-900 text-2xl flex items-center gap-2">
-                                                    <MapPin className="w-5 h-5 text-gray-600" />
-                                                    City / State *
-                                                </FormLabel>
-                                                <FormControl>
-                                                    <Input
-                                                        placeholder="Mumbai, Maharashtra"
-                                                        className="h-20 bg-white text-gray-800 border-gray-300 focus:ring-blue-300 focus:border-blue-300 transition-all duration-300 rounded-none"
-                                                        {...field}
-                                                    />
-                                                </FormControl>
-                                                <FormMessage className="text-red-500" />
-                                            </FormItem>
-                                        )}
-                                    />
-                                </motion.div>
+                                <FormField
+                                    control={form.control}
+                                    name="location"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel className="font-medium text-gray-900 text-2xl flex items-center gap-2">
+                                                <MapPin className="w-5 h-5 text-gray-600" />
+                                                City / State *
+                                            </FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    placeholder="Mumbai, Maharashtra"
+                                                    className="h-20 bg-white text-gray-800 border-gray-300 focus:ring-blue-300 focus:border-blue-300 transition-all duration-300 rounded-none"
+                                                    {...field}
+                                                />
+                                            </FormControl>
+                                            <FormMessage className="text-red-500" />
+                                        </FormItem>
+                                    )}
+                                />
 
-                                <motion.div className="md:col-span-2" variants={fieldVariants} whileHover="hover">
-                                    <FormField
-                                        control={form.control}
-                                        name="projectType"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel className="font-medium text-gray-900 text-2xl flex items-center gap-2">
-                                                    <Building className="w-5 h-5 text-gray-600" />
-                                                    Project Type *
-                                                </FormLabel>
-                                                <Select onValueChange={field.onChange} value={field.value}>
-                                                    <FormControl>
-                                                        <SelectTrigger className="h-20 py-10 w-full bg-white text-gray-800 border-gray-300 focus:ring-blue-300 focus:border-blue-300 transition-all duration-300 rounded-none">
-                                                            <SelectValue placeholder="Select project type" />
-                                                        </SelectTrigger>
-                                                    </FormControl>
-                                                    <SelectContent className="bg-white border-gray-300 text-gray-800">
-                                                        <SelectGroup>
-                                                            <SelectItem value="Residential Playground">Residential Playground</SelectItem>
-                                                            <SelectItem value="Commercial Play Area">Commercial Play Area</SelectItem>
-                                                            <SelectItem value="School Play System">School Play System</SelectItem>
-                                                            <SelectItem value="Community Park">Community Park</SelectItem>
-                                                            <SelectItem value="Custom Design">Custom Design</SelectItem>
-                                                        </SelectGroup>
-                                                    </SelectContent>
-                                                </Select>
-                                                <FormMessage className="text-red-500" />
-                                            </FormItem>
-                                        )}
-                                    />
-                                </motion.div>
-
-                                <motion.div className="md:col-span-2" variants={fieldVariants} whileHover="hover">
-                                    <FormField
-                                        control={form.control}
-                                        name="message"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel className="font-medium text-gray-900 text-2xl flex items-center gap-2">
-                                                    <MessageSquare className="w-5 h-5 text-gray-600" />
-                                                    Message (Optional)
-                                                </FormLabel>
+                                <FormField
+                                    control={form.control}
+                                    name="projectType"
+                                    render={({ field }) => (
+                                        <FormItem className="md:col-span-2">
+                                            <FormLabel className="font-medium text-gray-900 text-2xl flex items-center gap-2">
+                                                <Building className="w-5 h-5 text-gray-600" />
+                                                Project Type *
+                                            </FormLabel>
+                                            <Select onValueChange={field.onChange} value={field.value}>
                                                 <FormControl>
-                                                    <Textarea
-                                                        placeholder="Tell us about your project requirements..."
-                                                        className="min-h-32 bg-white text-gray-800 border-gray-300 focus:ring-blue-300 focus:border-blue-300 transition-all duration-300 rounded-none"
-                                                        {...field}
-                                                    />
+                                                    <SelectTrigger className="h-20 py-10 w-full bg-white text-gray-800 border-gray-300 focus:ring-blue-300 focus:border-blue-300 transition-all duration-300 rounded-none">
+                                                        <SelectValue placeholder="Select project type" />
+                                                    </SelectTrigger>
                                                 </FormControl>
-                                                <FormMessage className="text-red-500" />
-                                            </FormItem>
-                                        )}
-                                    />
-                                </motion.div>
+                                                <SelectContent className="bg-white border-gray-300 text-gray-800">
+                                                    <SelectGroup>
+                                                        <SelectItem value="Residential Playground">Residential Playground</SelectItem>
+                                                        <SelectItem value="Commercial Play Area">Commercial Play Area</SelectItem>
+                                                        <SelectItem value="School Play System">School Play System</SelectItem>
+                                                        <SelectItem value="Community Park">Community Park</SelectItem>
+                                                        <SelectItem value="Custom Design">Custom Design</SelectItem>
+                                                    </SelectGroup>
+                                                </SelectContent>
+                                            </Select>
+                                            <FormMessage className="text-red-500" />
+                                        </FormItem>
+                                    )}
+                                />
+
+                                <FormField
+                                    control={form.control}
+                                    name="message"
+                                    render={({ field }) => (
+                                        <FormItem className="md:col-span-2">
+                                            <FormLabel className="font-medium text-gray-900 text-2xl flex items-center gap-2">
+                                                <MessageSquare className="w-5 h-5 text-gray-600" />
+                                                Message (Optional)
+                                            </FormLabel>
+                                            <FormControl>
+                                                <Textarea
+                                                    placeholder="Tell us about your project requirements..."
+                                                    className="min-h-32 bg-white text-gray-800 border-gray-300 focus:ring-blue-300 focus:border-blue-300 transition-all duration-300 rounded-none"
+                                                    {...field}
+                                                />
+                                            </FormControl>
+                                            <FormMessage className="text-red-500" />
+                                        </FormItem>
+                                    )}
+                                />
                             </div>
 
                             <motion.div

@@ -3,23 +3,45 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import { User } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 export default function TestimonialsSection() {
   const statsVariants = {
     hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8 } }
+    visible: (i) => ({
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.8, delay: i * 0.3 }
+    })
   };
 
   const cardVariants = {
     hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+    visible: (i) => ({
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, delay: i * 0.3 }
+    }),
     hover: { y: -5, transition: { duration: 0.3 } }
   };
 
   const imageVariants = {
     hidden: { opacity: 0, scale: 0.8 },
     visible: { opacity: 1, scale: 1, transition: { duration: 0.5 } }
+  };
+
+  const headingVariants = {
+    hidden: { opacity: 0, y: -30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.8 }
+    }
+  };
+
+  const dividerVariants = {
+    hidden: { scaleX: 0 },
+    visible: { scaleX: 1, transition: { duration: 1, delay: 0.5 } }
   };
 
   const testimonials = [
@@ -30,79 +52,101 @@ export default function TestimonialsSection() {
   ];
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      { threshold: 0.3 }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => {
+      if (ref.current) {
+        observer.unobserve(ref.current);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImageIndex((prevIndex) => (prevIndex + 1) % testimonials.length);
-    }, 2000); // Change image every 1 second
+    }, 2000);
 
-    return () => clearInterval(interval); // Cleanup interval on component unmount
+    return () => clearInterval(interval);
   }, [testimonials.length]);
 
   return (
-    <section className="py-16 sm:py-20 bg-gradient-to-b from-blue-50 to-white relative">
+    <section ref={ref} className="py-16 sm:py-20 bg-gradient-to-b from-blue-50 to-white relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-      <motion.h2
-                    className="text-3xl sm:text-4xl md:text-5xl text-center font-bold mb-6 sm:mb-8 tracking-tight font-sans"
-                    initial={{ opacity: 0, y: -30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8 }}
-                >
-                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-700">
-                        What Our Clients Say
-                    </span>
-                </motion.h2>
-                <motion.div
-                    className="w-32 sm:w-40 h-1 bg-gradient-to-r from-gray-900/0 via-gray-900/80 to-gray-300/0 mx-auto mt-6 sm:mt-8 rounded-full"
-                    initial={{ scaleX: 0 }}
-                    animate={{ scaleX: 1 }}
-                    transition={{ duration: 1, delay: 0.5 }}
-                />
-        {/* Stats Section */}
+        <motion.h2
+          className="text-3xl sm:text-4xl md:text-5xl text-center font-bold mb-6 sm:mb-8 tracking-tight font-sans"
+          variants={headingVariants}
+          initial="hidden"
+          animate={isVisible ? "visible" : "hidden"}
+        >
+          <span className="bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-700">
+            What Our Clients Say
+          </span>
+        </motion.h2>
+        <motion.div
+          className="w-32 sm:w-40 h-1 bg-gradient-to-r from-gray-900/0 via-gray-900/80 to-gray-300/0 mx-auto mt-6 sm:mt-8 rounded-full"
+          variants={dividerVariants}
+          initial="hidden"
+          animate={isVisible ? "visible" : "hidden"}
+        />
+
         <div className="flex flex-col sm:flex-row justify-between items-center mb-12 sm:mb-16 mt-10">
           <motion.div
+            custom={0}
             variants={statsVariants}
             initial="hidden"
-            animate="visible"
+            animate={isVisible ? "visible" : "hidden"}
             className="flex items-center space-x-4 mb-6 sm:mb-0"
           >
-            
             <div className="relative w-16 h-16 sm:w-[160px] sm:h-40 rounded-full overflow-hidden bg-gray-200">
               <motion.img
-                key={currentImageIndex} // Key ensures animation triggers on image change
+                key={currentImageIndex}
                 src={testimonials[currentImageIndex].img}
                 alt="Client"
                 className="w-full h-full object-cover"
                 variants={imageVariants}
                 initial="hidden"
-                animate="visible"
+                animate={isVisible ? "visible" : "hidden"}
               />
             </div>
             <div>
-              <h3 className="text-lg  font-bold text-gray-800">
+              <h3 className="text-lg font-bold text-gray-800">
                 Enjoyed by over <span className="text-purple-600">25,000+</span><br />
                 happy customers are using our products.
               </h3>
-    
             </div>
           </motion.div>
 
           <motion.div
+            custom={1}
             variants={statsVariants}
             initial="hidden"
-            animate="visible"
+            animate={isVisible ? "visible" : "hidden"}
             className="mb-6 sm:mb-0"
           >
-            <h3 className="text-2xl sm:text-3xl font-bold text-gray-800 ">
+            <h3 className="text-2xl sm:text-3xl font-bold text-gray-800">
               200+
             </h3>
             <p className="text-lg sm:text-xl text-gray-600 max-w-40">Projects with innovative designs.</p>
           </motion.div>
 
           <motion.div
+            custom={2}
             variants={statsVariants}
             initial="hidden"
-            animate="visible"
+            animate={isVisible ? "visible" : "hidden"}
           >
             <h3 className="text-2xl sm:text-3xl font-bold text-gray-800 flex items-center">
               4.9
@@ -112,14 +156,13 @@ export default function TestimonialsSection() {
           </motion.div>
         </div>
 
-        {/* Testimonials Section */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
           <motion.div
+            custom={0}
             variants={cardVariants}
             initial="hidden"
-            whileInView="visible"
+            animate={isVisible ? "visible" : "hidden"}
             whileHover="hover"
-            viewport={{ once: true }}
           >
             <Card className="bg-white/90 border border-gray-200/50 shadow-md rounded-lg">
               <CardContent className="p-6">
@@ -140,11 +183,11 @@ export default function TestimonialsSection() {
           </motion.div>
 
           <motion.div
+            custom={1}
             variants={cardVariants}
             initial="hidden"
-            whileInView="visible"
+            animate={isVisible ? "visible" : "hidden"}
             whileHover="hover"
-            viewport={{ once: true }}
           >
             <Card className="bg-white/90 border border-gray-200/50 shadow-md rounded-lg">
               <CardContent className="p-6">
@@ -165,11 +208,11 @@ export default function TestimonialsSection() {
           </motion.div>
 
           <motion.div
+            custom={2}
             variants={cardVariants}
             initial="hidden"
-            whileInView="visible"
+            animate={isVisible ? "visible" : "hidden"}
             whileHover="hover"
-            viewport={{ once: true }}
           >
             <Card className="bg-white/90 border border-gray-200/50 shadow-md rounded-lg">
               <CardContent className="p-6">

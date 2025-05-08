@@ -1,5 +1,6 @@
 "use client";
 
+import React, { useState, useEffect, useRef } from 'react';
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -92,15 +93,36 @@ export default function WhoWeServeLight() {
         }
     };
 
+    const [isVisible, setIsVisible] = useState(false);
+    const ref = useRef(null);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                setIsVisible(entry.isIntersecting);
+            },
+            { threshold: 0.3 } // Trigger when 30% of the section is visible
+        );
+
+        if (ref.current) {
+            observer.observe(ref.current);
+        }
+
+        return () => {
+            if (ref.current) {
+                observer.unobserve(ref.current);
+            }
+        };
+    }, []);
+
     return (
-        <section className="min-h-screen py-20 px-4 bg-gradient-to-b from-[#e6f5fc] to-[#b3e0f5] relative overflow-hidden">
-            {/* Floating Decorative Elements */}
+        <section ref={ref} className="min-h-screen py-20 px-4 bg-gradient-to-b from-[#e6f5fc] to-[#b3e0f5] relative overflow-hidden">
             <motion.div
                 className="absolute top-1/4 left-1/5 w-16 h-16 rounded-full border border-gray-200/50"
-                animate={{
+                animate={isVisible ? {
                     y: [0, -20, 0],
                     opacity: [0.1, 0.2, 0.1],
-                }}
+                } : {}}
                 transition={{
                     duration: 8,
                     repeat: Infinity,
@@ -110,10 +132,10 @@ export default function WhoWeServeLight() {
 
             <motion.div
                 className="absolute bottom-1/5 right-1/4 w-12 h-12 rounded-full border border-gray-200/50"
-                animate={{
+                animate={isVisible ? {
                     scale: [1, 1.1, 1],
                     opacity: [0.1, 0.2, 0.1],
-                }}
+                } : {}}
                 transition={{
                     duration: 6,
                     repeat: Infinity,
@@ -125,7 +147,7 @@ export default function WhoWeServeLight() {
                 <motion.h2
                     className="text-3xl sm:text-4xl md:text-5xl text-center font-bold mb-8 tracking-tight font-sans"
                     initial={{ opacity: 0, y: -30 }}
-                    animate={{ opacity: 1, y: 0 }}
+                    animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: -30 }}
                     transition={{ duration: 0.8 }}
                 >
                     <span className="bg-clip-text text-transparent quicksand bg-gradient-to-r from-black to-gray-900">
@@ -135,11 +157,10 @@ export default function WhoWeServeLight() {
                 <motion.div
                     className="w-40 h-1 bg-gradient-to-r from-black/0 via-gray-900/80 to-indigo-300/0 mx-auto mt-8 rounded-full"
                     initial={{ scaleX: 0 }}
-                    animate={{ scaleX: 1 }}
+                    animate={isVisible ? { scaleX: 1 } : { scaleX: 0 }}
                     transition={{ duration: 1, delay: 0.5 }}
                 />
 
-                {/* Ultra Card Swiper */}
                 <div className="mt-20 px-8">
                     <Swiper
                         modules={[Autoplay]}
@@ -159,25 +180,19 @@ export default function WhoWeServeLight() {
                         className="!pb-12"
                     >
                         {audiences.map((audience, index) => (
-                            <SwiperSlide key={index} className="!h-auto py-10 ">
+                            <SwiperSlide key={index} className="!h-auto py-10">
                                 <motion.div
                                     custom={index}
                                     variants={cardVariants}
                                     initial="hidden"
-                                    animate="visible"
+                                    animate={isVisible ? "visible" : "hidden"}
                                     whileHover="hover"
                                     className="h-full"
                                 >
-                                    <div className={`relative ${audience.bgColor} rounded-2xl overflow-hidden group h-full `}>
-                                        {/* Glass Morphism Effect */}
+                                    <div className={`relative ${audience.bgColor} rounded-2xl overflow-hidden group h-full`}>
                                         <div className="absolute inset-0 bg-white/10 backdrop-blur-sm"></div>
-                                        
-                                        {/* Gradient Overlay */}
                                         <div className="absolute inset-0 bg-gradient-to-b from-black/5 to-black/20"></div>
-                                        
-                                        {/* Card Content */}
                                         <div className="relative z-10 p-8 h-full flex flex-col items-center justify-center">
-                                            {/* Image Container */}
                                             <div className="relative w-32 h-32 mb-6 rounded-full bg-white/20 backdrop-blur-sm p-4">
                                                 <div className="absolute inset-0 rounded-full border-2 border-white/30"></div>
                                                 <Image
@@ -187,14 +202,10 @@ export default function WhoWeServeLight() {
                                                     className="object-contain p-4"
                                                 />
                                             </div>
-                                            
-                                            {/* Text */}
                                             <p className="text-lg font-medium text-white text-center leading-relaxed">
                                                 {audience.text}
                                             </p>
                                         </div>
-                                        
-                                        {/* Decorative Elements */}
                                         <div className="absolute top-0 left-0 w-32 h-32 bg-gradient-to-br from-white/10 to-transparent rounded-full -translate-x-1/2 -translate-y-1/2"></div>
                                         <div className="absolute bottom-0 right-0 w-32 h-32 bg-gradient-to-tl from-white/10 to-transparent rounded-full translate-x-1/2 translate-y-1/2"></div>
                                     </div>
