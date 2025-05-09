@@ -1,41 +1,9 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { Input } from "@/components/ui/input";
-import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
-import { ArrowRight, Loader2, User, Phone, Mail, MapPin, Building, MessageSquare } from "lucide-react";
-import { Textarea } from "@/components/ui/textarea";
-import { z } from "zod";
-import { Button } from "@/components/ui/button";
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from "@/components/ui/form";
-import { useInView } from "react-intersection-observer";
-import { toast } from "sonner";
 import { motion } from "framer-motion";
-import { useState } from "react";
-
-const formSchema = z.object({
-    fullname: z.string().min(2, "Full name must be at least 2 characters").max(100),
-    phone: z.string().min(10, "Phone number must be at least 10 digits").max(15),
-    email: z.string().email("Invalid email address"),
-    location: z.string().min(2, "Location is required"),
-    projectType: z.string().min(1, "Please select a project type"),
-    message: z.string().optional(),
-});
+import { useInView } from "react-intersection-observer";
+import { useForm } from "react-hook-form";
+import { useRef } from "react";
 
 export default function LeadForm() {
     const [ref, inView] = useInView({
@@ -43,68 +11,38 @@ export default function LeadForm() {
         threshold: 0.3,
     });
 
-    const form = useForm({
-        resolver: zodResolver(formSchema),
+    // Add a ref for the form element
+    const formRef = useRef(null);
+
+    // Initialize react-hook-form
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm({
         defaultValues: {
-            fullname: "",
-            phone: "",
+            name: "",
             email: "",
+            phone: "",
             location: "",
-            projectType: "",
-            message: "",
+            customerType: "",
+            comment: "",
         },
     });
 
-    const [isLoading, setIsLoading] = useState(false);
+    // Handle form submission
+    const onSubmit = (data) => {
+        // If validation passes, submit the form to the specified URL
+        formRef.current.submit();
+    };
 
-    async function onSubmit(values) {
-        setIsLoading(true);
-        try {
-            const response = await fetch('/api/sendEmail', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    firstname: values.fullname.split(' ')[0],
-                    lastname: values.fullname.split(' ').slice(1).join(' ') || '',
-                    email: values.email,
-                    service: values.projectType,
-                    message: values.message || 'No additional message provided',
-                    phone: values.phone,
-                    location: values.location
-                }),
-            });
-
-            const data = await response.json();
-
-            if (!response.ok) {
-                throw new Error(data.error || 'Failed to send message');
-            }
-
-            toast.success("Your request has been submitted!", {
-                description: "We'll get back to you within 2 hours with your custom quote.",
-            });
-
-            form.reset();
-        } catch (error) {
-            console.error('Error:', error);
-            toast.error("An error occurred. Please try again later.");
-        } finally {
-            setIsLoading(false);
-        }
-    }
-
-    // Animation variants
+    // Animation variants (unchanged)
     const headingVariants = {
         hidden: { opacity: 0, y: -30 },
         visible: {
             opacity: 1,
             y: 0,
-            transition: {
-                duration: 0.8,
-                ease: "easeOut"
-            }
+            transition: { duration: 0.8, ease: "easeOut" }
         }
     };
 
@@ -112,11 +50,7 @@ export default function LeadForm() {
         hidden: { scaleX: 0 },
         visible: {
             scaleX: 1,
-            transition: {
-                duration: 1,
-                delay: 0.5,
-                ease: "easeOut"
-            }
+            transition: { duration: 1, delay: 0.5, ease: "easeOut" }
         }
     };
 
@@ -126,10 +60,7 @@ export default function LeadForm() {
             opacity: 1,
             y: 0,
             filter: "blur(0px)",
-            transition: {
-                duration: 0.8,
-                ease: "easeOut"
-            }
+            transition: { duration: 0.8, ease: "easeOut" }
         }
     };
 
@@ -137,9 +68,7 @@ export default function LeadForm() {
         hover: {
             scale: 1.05,
             boxShadow: "0 10px 20px rgba(59, 130, 246, 0.2)",
-            transition: {
-                duration: 0.3
-            }
+            transition: { duration: 0.3 }
         },
         tap: { scale: 0.98 }
     };
@@ -147,30 +76,29 @@ export default function LeadForm() {
     return (
         <div className="relative bg-[url('https://funplaysystems.com/images/Group77.svg')] bg-blue-200/20 bg-no-repeat bg-cover">
             <section ref={ref} className="relative py-16 sm:py-20 px-4 sm:px-6 overflow-hidden">
-
-                {/* Floating Elements */}
+                {/* Floating Elements (unchanged) */}
                 <motion.div
                     className="absolute top-1/4 left-1/5 w-16 sm:w-24 h-16 sm:h-24 rounded-full bg-gradient-to-br from-blue-300/10 to-transparent blur-xl"
                     animate={inView ? {
                         y: [0, -30, 0],
-                        opacity: [0.2, 0.4, 0.2],
+                        opacity: [0.2, 0.4, 0.2]
                     } : {}}
                     transition={{
                         duration: 8,
                         repeat: Infinity,
-                        ease: "easeInOut",
+                        ease: "easeInOut"
                     }}
                 />
                 <motion.div
                     className="absolute bottom-1/5 right-1/4 w-12 sm:w-16 h-12 sm:h-16 rounded-full bg-gradient-to-br from-blue-300/10 to-transparent blur-xl"
                     animate={inView ? {
                         scale: [1, 1.15, 1],
-                        opacity: [0.2, 0.4, 0.2],
+                        opacity: [0.2, 0.4, 0.2]
                     } : {}}
                     transition={{
                         duration: 6,
                         repeat: Infinity,
-                        ease: "easeInOut",
+                        ease: "easeInOut"
                     }}
                 />
 
@@ -185,7 +113,6 @@ export default function LeadForm() {
                             <span className="bg-clip-text text-transparent bg-gradient-to-r from-black to-gray-900">
                                 Get a Free Custom Quote in 30 Seconds
                             </span>
-
                         </motion.h2>
                         <motion.div
                             className="w-32 sm:w-40 h-1 bg-gradient-to-r from-gray-300/0 via-gray-600/80 to-gray-300/0 mx-auto mt-6 sm:mt-8 rounded-full"
@@ -195,185 +122,222 @@ export default function LeadForm() {
                         />
                     </div>
 
-                    <Form {...form}>
-                        <motion.form
-                            onSubmit={form.handleSubmit(onSubmit)}
-                            className="space-y-6 bg-gray-50 backdrop-blur-xl rounded-xl shadow-lg p-6 md:p-10 border border-gray-200/50 relative overflow-hidden"
-                            variants={formVariants}
-                            initial="hidden"
-                            animate={inView ? "visible" : "hidden"}
-                        >
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <FormField
-                                    control={form.control}
-                                    name="fullname"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel className="font-medium text-gray-900 text-2xl flex items-center gap-2">
-                                                <User className="w-5 h-5 text-gray-600" />
-                                                Full Name *
-                                            </FormLabel>
-                                            <FormControl>
-                                                <Input
-                                                    placeholder="John Doe"
-                                                    className="h-16  bg-white text-gray-800 border-gray-300 focus:ring-blue-300 focus:border-blue-300 transition-all duration-300 rounded-sm"
-                                                    {...field}
-                                                />
-                                            </FormControl>
-                                            <FormMessage className="text-red-500" />
-                                        </FormItem>
+                    <motion.form
+                        ref={formRef}
+                        action="https://funplaysystems.com/email-templates/contact-form.php"
+                        method="POST"
+                        className="space-y-6 bg-gray-50 backdrop-blur-xl rounded-xl shadow-lg p-6 md:p-10 border border-gray-200/50 relative overflow-hidden"
+                        variants={formVariants}
+                        initial="hidden"
+                        animate={inView ? "visible" : "hidden"}
+                        onSubmit={handleSubmit(onSubmit)}
+                    >
+                        <input
+                            type="hidden"
+                            name="redirect"
+                            value="https://funplaysystems.com/thank-you.html"
+                        />
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            {/* Your name */}
+                            <div className="relative">
+                                <label className="font-medium text-gray-900 text-2xl flex items-center gap-2">
+                                    <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                    </svg>
+                                    Your name *
+                                </label>
+                                <div className="relative">
+                                    <input
+                                        type="text"
+                                        {...register("name", { required: "This field is required" })}
+                                        className={`w-full h-16 px-3 bg-white text-gray-800 border border-gray-300 focus:ring-2 focus:ring-blue-300 focus:border-blue-300 transition-all duration-300 rounded-sm mt-2 pr-10 ${errors.name ? "border-red-500" : ""}`}
+                                        placeholder="Your name"
+                                    />
+                                    {errors.name && (
+                                        <svg className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
                                     )}
-                                />
-
-                                <FormField
-                                    control={form.control}
-                                    name="phone"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel className="font-medium text-gray-900 text-2xl flex items-center gap-2">
-                                                <Phone className="w-5 h-5 text-gray-600" />
-                                                Phone / WhatsApp *
-                                            </FormLabel>
-                                            <FormControl>
-                                                <Input
-                                                    placeholder="+91 9876543210"
-                                                    className="h-16  bg-white text-gray-800 border-gray-300 focus:ring-blue-300 focus:border-blue-300 transition-all duration-300 rounded-sm"
-                                                    {...field}
-                                                />
-                                            </FormControl>
-                                            <FormMessage className="text-red-500" />
-                                        </FormItem>
-                                    )}
-                                />
-
-                                <FormField
-                                    control={form.control}
-                                    name="email"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel className="font-medium text-gray-900 text-2xl flex items-center gap-2">
-                                                <Mail className="w-5 h-5 text-gray-600" />
-                                                Email Address *
-                                            </FormLabel>
-                                            <FormControl>
-                                                <Input
-                                                    placeholder="your@email.com"
-                                                    type="email"
-                                                    className="h-16  bg-white text-gray-800 border-gray-300 focus:ring-blue-300 focus:border-blue-300 transition-all duration-300 rounded-sm"
-                                                    {...field}
-                                                />
-                                            </FormControl>
-                                            <FormMessage className="text-red-500" />
-                                        </FormItem>
-                                    )}
-                                />
-
-                                <FormField
-                                    control={form.control}
-                                    name="location"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel className="font-medium text-gray-900 text-2xl flex items-center gap-2">
-                                                <MapPin className="w-5 h-5 text-gray-600" />
-                                                City / State *
-                                            </FormLabel>
-                                            <FormControl>
-                                                <Input
-                                                    placeholder="Mumbai, Maharashtra"
-                                                    className="h-16  bg-white text-gray-800 border-gray-300 focus:ring-blue-300 focus:border-blue-300 transition-all duration-300 rounded-sm"
-                                                    {...field}
-                                                />
-                                            </FormControl>
-                                            <FormMessage className="text-red-500" />
-                                        </FormItem>
-                                    )}
-                                />
-
-                                <FormField
-                                    control={form.control}
-                                    name="projectType"
-                                    render={({ field }) => (
-                                        <FormItem className="md:col-span-2">
-                                            <FormLabel className="font-medium text-gray-900 text-2xl flex items-center gap-2">
-                                                <Building className="w-5 h-5 text-gray-600" />
-                                                Project Type *
-                                            </FormLabel>
-                                            <Select onValueChange={field.onChange} value={field.value}>
-                                                <FormControl>
-                                                    <SelectTrigger className="h-16 py-8 w-full bg-white text-gray-800 border-gray-300 focus:ring-blue-300 focus:border-blue-300 transition-all duration-300 rounded-sm">
-                                                        <SelectValue placeholder="Select project type" />
-                                                    </SelectTrigger>
-                                                </FormControl>
-                                                <SelectContent className="bg-white border-gray-300 text-gray-800">
-                                                    <SelectGroup>
-                                                        <SelectItem value="Residential Playground">Residential Playground</SelectItem>
-                                                        <SelectItem value="Commercial Play Area">Commercial Play Area</SelectItem>
-                                                        <SelectItem value="School Play System">School Play System</SelectItem>
-                                                        <SelectItem value="Community Park">Community Park</SelectItem>
-                                                        <SelectItem value="Custom Design">Custom Design</SelectItem>
-                                                    </SelectGroup>
-                                                </SelectContent>
-                                            </Select>
-                                            <FormMessage className="text-red-500" />
-                                        </FormItem>
-                                    )}
-                                />
-
-                                <FormField
-                                    control={form.control}
-                                    name="message"
-                                    render={({ field }) => (
-                                        <FormItem className="md:col-span-2">
-                                            <FormLabel className="font-medium text-gray-900 text-2xl flex items-center gap-2">
-                                                <MessageSquare className="w-5 h-5 text-gray-600" />
-                                                Message (Optional)
-                                            </FormLabel>
-                                            <FormControl>
-                                                <Textarea
-                                                    placeholder="Tell us about your project requirements..."
-                                                    className="min-h-32 bg-white text-gray-800 border-gray-300 focus:ring-blue-300 focus:border-blue-300 transition-all duration-300 rounded-sm resize-none"
-                                                    {...field}
-                                                />
-                                            </FormControl>
-                                            <FormMessage className="text-red-500" />
-                                        </FormItem>
-                                    )}
-                                />
+                                </div>
+                                {errors.name && (
+                                    <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
+                                )}
                             </div>
 
-                            <motion.div
-                                variants={buttonVariants}
-                                whileHover="hover"
-                                whileTap="tap"
-                                className="relative"
-                            >
-                                <Button
-                                    type="submit"
-                                    className="w-full h-16 bg-gradient-to-r from-blue-500 to-blue-400 hover:from-blue-600 hover:to-blue-500 text-white text-lg font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
-                                    disabled={isLoading}
-                                >
-                                    {isLoading ? (
-                                        <Loader2 className="h-5 w-5 animate-spin" />
-                                    ) : (
-                                        <>
-                                            Send Me the Quote
-                                            <ArrowRight className="ml-2 h-5 w-5" />
-                                        </>
+                            {/* Your phone number */}
+                            <div className="relative">
+                                <label className="font-medium text-gray-900 text-2xl flex items-center gap-2">
+                                    <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                                    </svg>
+                                    Your phone number *
+                                </label>
+                                <div className="relative">
+                                    <input
+                                        type="tel"
+                                        {...register("phone", {
+                                            required: "This field is required",
+                                            pattern: {
+                                                value: /^\+[0-9]{10,15}$/,
+                                                message: "Invalid phone number (must be + followed by 10-15 digits)",
+                                            },
+                                        })}
+                                        className={`w-full h-16 px-3 bg-white text-gray-800 border border-gray-300 focus:ring-2 focus:ring-blue-300 focus:border-blue-300 transition-all duration-300 rounded-sm mt-2 pr-10 ${errors.phone ? "border-red-500" : ""}`}
+                                        placeholder="Your phone number"
+                                    />
+                                    {errors.phone && (
+                                        <svg className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
                                     )}
-                                </Button>
-                                <motion.div
-                                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 pointer-events-none"
-                                    initial={{ x: "-100%" }}
-                                    whileHover={{ x: "100%" }}
-                                    transition={{ duration: 0.5 }}
-                                />
-                            </motion.div>
+                                </div>
+                                {errors.phone && (
+                                    <p className="text-red-500 text-sm mt-1">{errors.phone.message}</p>
+                                )}
+                            </div>
 
-                            <p className="text-center text-gray-600 text-sm mt-4">
-                                * We respect your privacy. Your information will not be shared.
-                            </p>
-                        </motion.form>
-                    </Form>
+                            {/* Your email address */}
+                            <div className="relative">
+                                <label className="font-medium text-gray-900 text-2xl flex items-center gap-2">
+                                    <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l9 6 9-6m-9 6v8m-9-8h18V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2h14a2 2 0 002-2V8z"></path>
+                                    </svg>
+                                    Your email address *
+                                </label>
+                                <div className="relative">
+                                    <input
+                                        type="email"
+                                        {...register("email", {
+                                            required: "This field is required",
+                                            pattern: {
+                                                value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                                                message: "Invalid email address",
+                                            },
+                                        })}
+                                        className={`w-full h-16 px-3 bg-white text-gray-800 border border-gray-300 focus:ring-2 focus:ring-blue-300 focus:border-blue-300 transition-all duration-300 rounded-sm mt-2 pr-10 ${errors.email ? "border-red-500" : ""}`}
+                                        placeholder="Your email address"
+                                    />
+                                    {errors.email && (
+                                        <svg className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                    )}
+                                </div>
+                                {errors.email && (
+                                    <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+                                )}
+                            </div>
+
+                            {/* Your location */}
+                            <div className="relative">
+                                <label className="font-medium text-gray-900 text-2xl flex items-center gap-2">
+                                    <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L12 21.314l-5.657-5.657a8 8 0 1111.314 0zM12 12a3 3 0 100-6 3 3 0 000 6z"></path>
+                                    </svg>
+                                    Your location *
+                                </label>
+                                <div className="relative">
+                                    <input
+                                        type="text"
+                                        {...register("location", { required: "This field is required" })}
+                                        className={`w-full h-16 px-3 bg-white text-gray-800 border border-gray-300 focus:ring-2 focus:ring-blue-300 focus:border-blue-300 transition-all duration-300 rounded-sm mt-2 pr-10 ${errors.location ? "border-red-500" : ""}`}
+                                        placeholder="Your location"
+                                    />
+                                    {errors.location && (
+                                        <svg className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                    )}
+                                </div>
+                                {errors.location && (
+                                    <p className="text-red-500 text-sm mt-1">{errors.location.message}</p>
+                                )}
+                            </div>
+
+                            {/* Category */}
+                            <div className="md:col-span-2 relative">
+                                <label className="font-medium text-gray-900 text-2xl flex items-center gap-2">
+                                    <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h-4m-6 0H5a2 2 0 01-2-2v-1a2 2 0 012-2h14a2 2 0 012 2v1a2 2 0 01-2 2z"></path>
+                                    </svg>
+                                    Category *
+                                </label>
+                                <div className="relative">
+                                    <select
+                                        {...register("customerType", { required: "This field is required" })}
+                                        className={`w-full h-16 px-3 bg-white text-gray-800 border border-gray-300 focus:ring-2 focus:ring-blue-300 focus:border-blue-300 transition-all duration-300 rounded-sm mt-2 pr-10 ${errors.customerType ? "border-red-500" : ""}`}
+                                    >
+                                        <option value="" disabled>Select category</option>
+                                        <option value="Residential Playground">Residential Playground</option>
+                                        <option value="Commercial Play Area">Commercial Play Area</option>
+                                        <option value="School Play System">School Play System</option>
+                                        <option value="Community Park">Community Park</option>
+                                        <option value="Custom Design">Custom Design</option>
+                                    </select>
+                                    {errors.customerType && (
+                                        <svg className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                    )}
+                                </div>
+                                {errors.customerType && (
+                                    <p className="text-red-500 text-sm mt-1">{errors.customerType.message}</p>
+                                )}
+                            </div>
+
+                            {/* Your message */}
+                            <div className="md:col-span-2 relative">
+                                <label className="font-medium text-gray-900 text-2xl flex items-center gap-2">
+                                    <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 12h8m-8 4h8M4 6h16M4 6l4 4m12-4l-4 4m-8 6H4a2 2 0 01-2-2V6a2 2 0 012-2h16a2 2 0 012 2v8a2 2 0 01-2 2h-4"></path>
+                                    </svg>
+                                    Your message *
+                                </label>
+                                <div className="relative">
+                                    <textarea
+                                        {...register("comment", { required: "This field is required" })}
+                                        className={`w-full min-h-32 px-3 bg-white text-gray-800 border border-gray-300 focus:ring-2 focus:ring-blue-300 focus:border-blue-300 transition-all duration-300 rounded-sm mt-2 resize-none pr-10 ${errors.comment ? "border-red-500" : ""}`}
+                                        placeholder="Your message"
+                                    />
+                                    {errors.comment && (
+                                        <svg className="absolute right-3 top-5 w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                    )}
+                                </div>
+                                {errors.comment && (
+                                    <p className="text-red-500 text-sm mt-1">{errors.comment.message}</p>
+                                )}
+                            </div>
+                        </div>
+
+                        <motion.div
+                            variants={buttonVariants}
+                            whileHover="hover"
+                            whileTap="tap"
+                            className="relative"
+                        >
+                            <button
+                                type="submit"
+                                className="w-full h-16 bg-gradient-to-r from-blue-500 to-blue-400 hover:from-blue-600 hover:to-blue-500 text-white text-lg font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2"
+                            >
+                                Send Me the Quote
+                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                                </svg>
+                            </button>
+                            <motion.div
+                                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+                                initial={{ x: "-100%" }}
+                                whileHover={{ x: "100%" }}
+                                transition={{ duration: 0.5 }}
+                            />
+                        </motion.div>
+
+                        <p className="text-center text-gray-600 text-sm mt-4">
+                            * We respect your privacy. Your information will not be shared.
+                        </p>
+                    </motion.form>
                 </div>
             </section>
         </div>
