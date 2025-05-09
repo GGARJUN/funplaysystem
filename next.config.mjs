@@ -1,8 +1,21 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    images: {
-        domains: ["images.unsplash.com","funplaysystems.com","img.freepik.com"],
-      },
+  images: {
+      remotePatterns: [
+          {
+              protocol: 'https',
+              hostname: 'images.unsplash.com'
+          },
+          {
+              protocol: 'https',
+              hostname: 'funplaysystems.com'
+          },
+          {
+              protocol: 'https',
+              hostname: 'img.freepik.com'
+          }
+      ]
+  }
 };
 
 export default nextConfig;
