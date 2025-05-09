@@ -49,7 +49,7 @@ export default function HeroSectionWithForm() {
     }, []);
 
     return (
-        <section ref={ref} className="relative min-h-screen flex items-center justify-center text-black py-12 sm:py-16 md:py-20 px-4 sm:px-6 md:px-8 overflow-hidden bg-black/70">
+        <section ref={ref} className="relative min-h-screen flex items-center justify-center text-black py-12 sm:py-16 md:py-20 px-4 sm:px-6 md:px-8 overflow-hidden bg-black/80">
             <div className="absolute inset-0 overflow-hidden">
                 <Swiper
                     modules={[Autoplay]}

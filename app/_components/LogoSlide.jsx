@@ -100,11 +100,11 @@ function LogoSlide() {
                 {clients.map((client, index) => (
                     <SwiperSlide key={index}>
                         <div className="flex justify-center">
-                            <div className="bg-gray-200 rounded-3xl px-4 py-6 w-80 flex items-center justify-center transition-all duration-300 hover:bg-gray-300">
+                            <div className="bg-white rounded-3xl px-4 py-6 w-80 flex items-center justify-center transition-all duration-300 ">
                                 <img
                                     src={client.img}
                                     alt={client.alt || `Client ${index + 1}`}
-                                    className="h-20 w-auto filter grayscale hover:grayscale-0 transition-all duration-300"
+                                    className="h-20 w-auto  transition-all duration-300"
                                 />
                             </div>
                         </div>

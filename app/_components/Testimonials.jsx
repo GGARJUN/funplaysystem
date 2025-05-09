@@ -2,7 +2,6 @@
 
 import { Card, CardContent } from "@/components/ui/card";
 import { motion } from "framer-motion";
-import { User } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 
 export default function TestimonialsSection() {
@@ -122,7 +121,7 @@ export default function TestimonialsSection() {
               />
             </div>
             <div>
-              <h3 className="text-lg font-bold text-gray-800">
+              <h3 className="text-2xl max-w-[340px] font-bold text-gray-800">
                 Enjoyed by over <span className="text-purple-600">25,000+</span><br />
                 happy customers are using our products.
               </h3>
@@ -136,10 +135,10 @@ export default function TestimonialsSection() {
             animate={isVisible ? "visible" : "hidden"}
             className="mb-6 sm:mb-0"
           >
-            <h3 className="text-2xl sm:text-3xl font-bold text-gray-800">
+            <h3 className="text-2xl sm:text-6xl font-bold text-gray-800">
               200+
             </h3>
-            <p className="text-lg sm:text-xl text-gray-600 max-w-40">Projects with innovative designs.</p>
+            <p className="text-lg sm:text-xl text-gray-600 max-w-48 font-semibold">Projects with innovative designs.</p>
           </motion.div>
 
           <motion.div
@@ -148,38 +147,44 @@ export default function TestimonialsSection() {
             initial="hidden"
             animate={isVisible ? "visible" : "hidden"}
           >
-            <h3 className="text-2xl sm:text-3xl font-bold text-gray-800 flex items-center">
-              4.9
-              <span className="ml-2 text-yellow-400">★★★★★</span>
-            </h3>
-            <p className="text-lg sm:text-xl max-w-40 text-gray-600">Average rating from thousands of happy clients.</p>
+            <div className="flex flex-col justify-start items-start mb-2">
+              <h3 className="text-2xl sm:text-6xl font-bold  text-gray-800 flex items-center">
+                4.9
+              </h3>
+              <span className=" text-yellow-400 text-2xl">★★★★★</span>
+            </div>
+            <p className="text-lg sm:text-xl max-w-40 text-gray-600 font-semibold ">Average rating from thousands of happy clients.</p>
           </motion.div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 p-6 ">
           <motion.div
             custom={0}
             variants={cardVariants}
             initial="hidden"
             animate={isVisible ? "visible" : "hidden"}
             whileHover="hover"
+            className="relative"
           >
-            <Card className="bg-white/90 border border-gray-200/50 shadow-md rounded-lg">
+            <Card className="bg-white/90 border border-gray-200/50 shadow-md rounded-lg  ">
               <CardContent className="p-6">
-                <p className="text-gray-700 italic text-sm sm:text-base mb-4">
-                  "Fun Play Systems Pvt. Ltd. has been instrumental in helping us tailor our playground structures within budget while adding popular elements. Their expertise and professionalism are impressive."
+                <p className="text-gray-700  text-sm sm:text-lg mb-4">
+                  Fun Play Systems Pvt. Ltd. has been instrumental in helping us tailor our playground structures within budget while adding popular elements. Their expertise and professionalism are impressive.
                 </p>
-                <div className="flex items-center">
-                  <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center mr-3">
-                    <User className="w-5 h-5 text-gray-600" />
+  
+              </CardContent>
+            </Card>
+            {/* <div className="bg-white w-10 h-10 rotate-45 absolute bottom-16 left-8  border border-gray-200/50 shadow-md"></div> */}
+            <div className="flex items-center my-10">
+                  <div className="w-20 h-20 rounded-full  flex items-center justify-center mr-3">
+                    {/* <User className="w-5 h-5 text-gray-600" /> */}
+                    <img src="https://funplaysystems.com/images/usert.png" alt="" />
                   </div>
                   <div>
                     <p className="text-gray-800 font-semibold text-sm sm:text-base">Nayan Shah</p>
                     <p className="text-gray-600 text-xs sm:text-sm">Damji Shamji Shah Group</p>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
           </motion.div>
 
           <motion.div
@@ -191,20 +196,20 @@ export default function TestimonialsSection() {
           >
             <Card className="bg-white/90 border border-gray-200/50 shadow-md rounded-lg">
               <CardContent className="p-6">
-                <p className="text-gray-700 italic text-sm sm:text-base mb-4">
-                  "We at Jaideep Construction have been using Fun Play Systems’ equipment for its safety, aesthetics, and durability. From product selection to after-sales service, their support has been exceptional. We highly recommend Fun Play Systems."
+              <p className="text-gray-700  text-sm sm:text-lg mb-4">
+                  We at Jaideep Construction have been using Fun Play Systems’ equipment for its safety, aesthetics, and durability. From product selection to after-sales service, their support has been exceptional. We highly recommend Fun Play Systems.
                 </p>
-                <div className="flex items-center">
-                  <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center mr-3">
-                    <User className="w-5 h-5 text-gray-600" />
+              </CardContent>
+            </Card>
+                <div className="flex items-center my-10">
+                <div className="w-20 h-20 rounded-full  flex items-center justify-center mr-3">
+                  <img src="https://funplaysystems.com/images/usert.png" alt="" />
                   </div>
                   <div>
                     <p className="text-gray-800 font-semibold text-sm sm:text-base">Customer</p>
                     <p className="text-gray-600 text-xs sm:text-sm">Jaideep Construction</p>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
           </motion.div>
 
           <motion.div
@@ -216,20 +221,70 @@ export default function TestimonialsSection() {
           >
             <Card className="bg-white/90 border border-gray-200/50 shadow-md rounded-lg">
               <CardContent className="p-6">
-                <p className="text-gray-700 italic text-sm sm:text-base mb-4">
-                  "The Multi-activity design from Fun Play Systems has been a huge hit. The children enjoy the spacious, well-designed play area, which has positively impacted their outdoor play."
+              <p className="text-gray-700  text-sm sm:text-lg mb-4">
+                  The Multi-activity design from Fun Play Systems has been a huge hit. The children enjoy the spacious, well-designed play area, which has positively impacted their outdoor play.
                 </p>
-                <div className="flex items-center">
-                  <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center mr-3">
-                    <User className="w-5 h-5 text-gray-600" />
+              </CardContent>
+            </Card>
+                <div className="flex items-center my-10">
+                <div className="w-20 h-20 rounded-full  flex items-center justify-center mr-3">
+                  <img src="https://funplaysystems.com/images/usert.png" alt="" />
                   </div>
                   <div>
                     <p className="text-gray-800 font-semibold text-sm sm:text-base">Sanjay S. Deshmukh</p>
                     <p className="text-gray-600 text-xs sm:text-sm">Urja Hospitality LLP</p>
                   </div>
                 </div>
+          </motion.div>
+
+          <motion.div
+            custom={3}
+            variants={cardVariants}
+            initial="hidden"
+            animate={isVisible ? "visible" : "hidden"}
+            whileHover="hover"
+          >
+            <Card className="bg-white/90 border border-gray-200/50 shadow-md rounded-lg">
+              <CardContent className="p-6">
+              <p className="text-gray-700  text-sm sm:text-lg mb-4">
+                  We prioritize adding top-quality amenities that enhance the value of our projects, and the playground equipment from Funplay Systems Pvt. Ltd. has truly impressed us. The installation was efficient, and the design seamlessly integrated with our community spaces. The equipment is not only robust and safe but also inspires active play and creativity in children. Our clients have been extremely pleased with the playground, making it a significant attraction in our developments. We’re thrilled with the product and service, and we look forward to partnering with Funplay on future projects.
+                </p>
               </CardContent>
             </Card>
+                <div className="flex items-center my-10">
+                <div className="w-20 h-20 rounded-full  flex items-center justify-center mr-3">
+                  <img src="https://funplaysystems.com/images/usert.png" alt="" />
+                  </div>
+                  <div>
+                    <p className="text-gray-800 font-semibold text-sm sm:text-base">Customer</p>
+                    <p className="text-gray-600 text-xs sm:text-sm">Ridhi Sidhi Developers</p>
+                  </div>
+                </div>
+          </motion.div>
+
+          <motion.div
+            custom={4}
+            variants={cardVariants}
+            initial="hidden"
+            animate={isVisible ? "visible" : "hidden"}
+            whileHover="hover"
+          >
+            <Card className="bg-white/90 border border-gray-200/50 shadow-md rounded-lg">
+              <CardContent className="p-6">
+              <p className="text-gray-700  text-sm sm:text-lg mb-4">
+                  As developers, we are always on the lookout for high-quality amenities that add value to our projects, and the playground equipment provided by Funplay Systems Pvt. Ltd. has exceeded our expectations. The installation process was seamless, and the design perfectly complements our community spaces. The equipment is not only durable and safe but also encourages active play and creativity among children. Our clients have expressed great satisfaction with the playground, making it a key selling point in our developments. We couldn’t be happier with the product and service, and we look forward to working with Funplay on future projects.
+                </p>
+              </CardContent>
+            </Card>
+                <div className="flex items-center my-10">
+                <div className="w-20 h-20 rounded-full  flex items-center justify-center mr-3">
+                  <img src="https://funplaysystems.com/images/usert.png" alt="" />
+                  </div>
+                  <div>
+                    <p className="text-gray-800 font-semibold text-sm sm:text-base">Customer</p>
+                    <p className="text-gray-600 text-xs sm:text-sm">Gami Group</p>
+                  </div>
+                </div>
           </motion.div>
         </div>
       </div>
