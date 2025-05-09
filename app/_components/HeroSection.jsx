@@ -7,7 +7,7 @@ import { Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import { useInView } from "react-intersection-observer";
 import { useForm } from "react-hook-form";
-
+import { useRouter } from "next/navigation";
 // Predefined constants
 const images = [
     "https://funplaysystems.com/images/contactbanner.jpg",
@@ -196,7 +196,7 @@ export default function HeroSectionWithForm() {
 
     // Add a ref for the form element
     const formRef = useRef(null);
-
+    const router = useRouter();
     // State to track submission status and popup visibility
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [showPopup, setShowPopup] = useState(false);
@@ -218,27 +218,25 @@ export default function HeroSectionWithForm() {
 
     // Handle form submission
     const onSubmit = (data) => {
-        // Simulate successful submission (since we're using a direct form action)
-        setIsSubmitted(true); // Disable the submit button
-        setShowPopup(true); // Show the success popup
-
         // Clear the form
         reset({
             name: "",
             email: "",
             phone: "",
+            location: "",
+            customerType: "",
             comment: "",
         });
 
-        // Submit the form to the specified URL
-        formRef.current.submit();
+        // Submit the form normally
+        if (formRef.current) {
+            formRef.current.submit();
+        }
 
-        // Close the popup after 3 seconds
-        setTimeout(() => {
-            setShowPopup(false);
-        }, 3000);
+        // Redirect after submission
+        window.location.href = "https://funplaysystems.com/thank-you.html ";
     };
-
+    
     return (
         <section ref={ref} className="relative min-h-screen flex items-center justify-center text-black py-12 sm:py-16 md:py-20 px-4 sm:px-6 md:px-8 overflow-hidden bg-black/80">
             <div className="absolute inset-0 overflow-hidden">
@@ -363,24 +361,23 @@ export default function HeroSectionWithForm() {
             <div className="absolute bottom-0 left-0 right-0 h-20 sm:h-24 bg-gradient-to-t from-gray-200/50 to-transparent"></div>
 
             {/* Popup Message */}
-            {showPopup && (
+            {/* {showPopup && (
                 <motion.div
                     className="fixed inset-0 z-50 flex items-center justify-center"
                     variants={popupVariants}
                     initial="hidden"
                     animate="visible"
                 >
-                    {/* Background Overlay */}
+
                     <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
 
-                    {/* Popup Content */}
                     <div className="relative bg-white h-60 w-[90%] sm:w-5xl rounded-lg shadow-lg z-10 flex flex-col justify-center items-center gap-4 p-6">
                         <h1 className="text-5xl text-gray-800">Thank You!</h1>
                         <p className="text-center text-gray-600">
                             Your submission has been received. We appreciate your feedback and will get back to you shortly.
                         </p>
 
-                        {/* Close Button */}
+
                         <button
                             onClick={() => setShowPopup(false)}
                             className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 transition-colors duration-200"
@@ -392,7 +389,7 @@ export default function HeroSectionWithForm() {
                         </button>
                     </div>
                 </motion.div>
-            )}
+            )} */}
         </section>
     );
 }

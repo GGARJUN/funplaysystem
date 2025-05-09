@@ -1,9 +1,8 @@
 "use client";
-
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { useForm } from "react-hook-form";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 
 export default function LeadForm() {
     const [ref, inView] = useInView({
@@ -11,14 +10,8 @@ export default function LeadForm() {
         threshold: 0.3,
     });
 
-    // Add a ref for the form element
     const formRef = useRef(null);
 
-    // State to track submission status and popup visibility
-    const [isSubmitted, setIsSubmitted] = useState(false);
-    const [showPopup, setShowPopup] = useState(false);
-
-    // Initialize react-hook-form
     const {
         register,
         handleSubmit,
@@ -35,12 +28,7 @@ export default function LeadForm() {
         },
     });
 
-    // Handle form submission
     const onSubmit = (data) => {
-        // Simulate successful submission (since we're using a direct form action)
-        setIsSubmitted(true); // Disable the submit button
-        setShowPopup(true); // Show the success popup
-
         // Clear the form
         reset({
             name: "",
@@ -51,15 +39,13 @@ export default function LeadForm() {
             comment: "",
         });
 
-        // Optionally submit the form to the specified URL
-        // In a real scenario, you might want to prevent the default form submission
-        // and handle it with fetch to avoid redirect, then show the popup
-        formRef.current.submit();
+        // Submit the form normally
+        if (formRef.current) {
+            formRef.current.submit();
+        }
 
-        // Close the popup after 3 seconds
-        setTimeout(() => {
-            setShowPopup(false);
-        }, 3000);
+        // Redirect after submission
+        window.location.href = "https://funplaysystems.com/thank-you.html ";
     };
 
     // Animation variants (unchanged)
@@ -71,7 +57,6 @@ export default function LeadForm() {
             transition: { duration: 0.8, ease: "easeOut" }
         }
     };
-
     const dividerVariants = {
         hidden: { scaleX: 0 },
         visible: {
@@ -79,7 +64,6 @@ export default function LeadForm() {
             transition: { duration: 1, delay: 0.5, ease: "easeOut" }
         }
     };
-
     const formVariants = {
         hidden: { opacity: 0, y: 50, filter: "blur(2px)" },
         visible: {
@@ -89,7 +73,6 @@ export default function LeadForm() {
             transition: { duration: 0.8, ease: "easeOut" }
         }
     };
-
     const buttonVariants = {
         hover: {
             scale: 1.05,
@@ -99,19 +82,10 @@ export default function LeadForm() {
         tap: { scale: 0.98 }
     };
 
-    const popupVariants = {
-        hidden: { opacity: 0, y: -20 },
-        visible: {
-            opacity: 1,
-            y: 0,
-            transition: { duration: 0.5, ease: "easeOut" }
-        }
-    };
-
     return (
-        <div className="relative bg-[url('https://funplaysystems.com/images/Group77.svg')] bg-blue-200/20 bg-no-repeat bg-cover">
+        <div className="relative bg-[url('https://funplaysystems.com/images/Group77.svg ')] bg-blue-200/20 bg-no-repeat bg-cover">
             <section ref={ref} className="relative py-16 sm:py-20 px-4 sm:px-6 overflow-hidden">
-                {/* Floating Elements (unchanged) */}
+                {/* Floating Elements */}
                 <motion.div
                     className="absolute top-1/4 left-1/5 w-16 sm:w-24 h-16 sm:h-24 rounded-full bg-gradient-to-br from-blue-300/10 to-transparent blur-xl"
                     animate={inView ? {
@@ -136,7 +110,6 @@ export default function LeadForm() {
                         ease: "easeInOut"
                     }}
                 />
-
                 <div className="max-w-7xl mx-auto">
                     <div className="text-center mb-12">
                         <motion.h2
@@ -156,10 +129,9 @@ export default function LeadForm() {
                             animate={inView ? "visible" : "hidden"}
                         />
                     </div>
-
                     <motion.form
                         ref={formRef}
-                        action="https://funplaysystems.com/email-templates/contact-form.php"
+                        action="https://funplaysystems.com/email-templates/contact-form.php "
                         method="POST"
                         className="space-y-6 bg-gray-50 backdrop-blur-xl rounded-xl shadow-lg p-6 md:p-10 border border-gray-200/50 relative overflow-hidden"
                         variants={formVariants}
@@ -368,38 +340,7 @@ export default function LeadForm() {
                             * We respect your privacy. Your information will not be shared.
                         </p>
                     </motion.form>
-
-                    {/* Popup Message */}
-                    {showPopup && (
-                        <motion.div
-                            className="fixed inset-0 z-50 flex items-center justify-center"
-                            variants={popupVariants}
-                            initial="hidden"
-                            animate="visible"
-                        >
-                            {/* Background Overlay */}
-                            <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
-
-                            {/* Popup Content */}
-                            <div className="relative bg-white h-60 w-5xl  rounded-lg shadow-lg z-10 flex flex-col justify-center items-center gap-4 p-6">
-                                <h1 className="text-5xl  text-gray-800">Thank You!</h1>
-                                <p className="text-center text-gray-600">
-                                    Your submission has been received. We appreciate your feedback and will get back to you shortly.
-                                </p>
-
-                                {/* Close Button */}
-                                <button
-                                    onClick={() => setShowPopup(false)}
-                                    className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 transition-colors duration-200"
-                                    aria-label="Close popup"
-                                >
-                                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
-                                    </svg>
-                                </button>
-                            </div>
-                        </motion.div>
-                    )}
+                    
                 </div>
             </section>
         </div>
