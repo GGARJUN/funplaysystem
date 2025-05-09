@@ -103,7 +103,7 @@ const New = () => {
                                             </div>
                                             <h3 className="text-2xl sm:text-3xl font-semibold mb-3 text-gray-900 group-hover:text-white transition-colors duration-300 line-clamp-1">{feature.title}</h3>
                                             <p className="text-sm sm:text-base text-gray-600 leading-relaxed group-hover:text-white transition-colors duration-300 line-clamp-2">{feature.description}</p>
-                                            <div className="flex items-center gap-3 transition-colors duration-300 mt-6">
+                                            <div className="flex items-center gap-3 transition-colors duration-300 mt-6 cursor-pointer">
                                                 <Link href={feature.link}>
                                                     <motion.div variants={{ hover: { x: 0, opacity: 1, transition: { type: "spring", stiffness: 120 } }, initial: { x: -20, opacity: 0 } }}>
                                                         <motion.button className="text-sm font-medium text-white">Learn More</motion.button>
