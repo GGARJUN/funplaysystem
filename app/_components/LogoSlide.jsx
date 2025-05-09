@@ -104,7 +104,7 @@ function LogoSlide() {
                                 <img
                                     src={client.img}
                                     alt={client.alt || `Client ${index + 1}`}
-                                    className="h-20 w-auto  transition-all duration-300"
+                                    className="h-20 w-auto  transition-all duration-300 object-cover"
                                 />
                             </div>
                         </div>
