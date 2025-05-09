@@ -1,26 +1,12 @@
 "use client";
 
-import React, { memo } from 'react';
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import React, { memo, useRef, useState } from 'react';
 import { motion } from "framer-motion";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import { useInView } from "react-intersection-observer";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-
-// Form validation schema
-const formSchema = z.object({
-    name: z.string().min(1, "Full name is required"),
-    email: z.string().email("Invalid email address").min(1, "Email is required"),
-    phone: z.string().min(1, "Phone number is required"),
-    message: z.string().optional()
-});
 
 // Predefined constants
 const images = [
@@ -29,7 +15,7 @@ const images = [
     "https://funplaysystems.com/images/og-banner.jpg"
 ];
 
-// Animation variants (unchanged)
+// Animation variants
 const textVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } }
@@ -42,123 +28,216 @@ const buttonVariants = {
     tap: { scale: 0.98 }
 };
 
+const formVariants = {
+    hidden: { opacity: 0, y: 50, filter: "blur(2px)" },
+    visible: {
+        opacity: 1,
+        y: 0,
+        filter: "blur(0px)",
+        transition: { duration: 0.8, ease: "easeOut" }
+    }
+};
+
+const popupVariants = {
+    hidden: { opacity: 0, y: -20 },
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: { duration: 0.5, ease: "easeOut" }
+    }
+};
+
 // Memoized FormComponent to prevent unnecessary re-renders
-const FormComponent = memo(({ form }) => (
-    <Form {...form}>
-        <form onSubmit={form.handleSubmit((data) => console.log(data))} className="space-y-2 sm:space-y-2">
-            <div className="flex flex-col sm:flex-row justify-between gap-4 w-full">
-                <FormField
-                    control={form.control}
-                    name="name"
-                    render={({ field }) => (
-                        <FormItem className="w-full">
-                            <FormLabel className="block text-xs sm:text-sm font-medium text-gray-700 ">
-                                Full Name
-                            </FormLabel>
-                            <FormControl>
-                                <Input
-                                    type="text"
-                                    placeholder="Enter your name"
-                                    className="w-full h-12  bg-white/50 border border-gray-300/50 rounded-sm text-gray-800 placeholder-gray-500 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-gray-400/50 transition-all"
-                                    {...field}
-                                />
-                            </FormControl>
-                            <FormMessage className="text-red-500 text-xs" />
-                        </FormItem>
+const FormComponent = memo(({ formRef, register, errors, handleSubmit, onSubmit, isSubmitted }) => (
+    <motion.form
+        ref={formRef}
+        action="https://funplaysystems.com/email-templates/contact-form.php"
+        method="POST"
+        className="space-y-6"
+        onSubmit={handleSubmit(onSubmit)}
+    >
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Your name */}
+            <div className="relative">
+                <label className="font-medium text-gray-900 text-xl flex items-center gap-2">
+                   Enter Your name *
+                </label>
+                <div className="relative">
+                    <input
+                        type="text"
+                        {...register("name", { required: "This field is required" })}
+                        className={`w-full h-12 px-3 bg-white text-gray-800 border border-gray-300 focus:ring-2 focus:ring-blue-300 focus:border-blue-300 transition-all duration-300 rounded-sm mt-2 pr-10 ${errors.name ? "border-red-500" : ""}`}
+                        placeholder="Enter Your name"
+                    />
+                    {errors.name && (
+                        <svg className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
                     )}
-                />
-                <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                        <FormItem className="w-full">
-                            <FormLabel className="block text-xs sm:text-sm font-medium text-gray-700 ">
-                                Email Address
-                            </FormLabel>
-                            <FormControl>
-                                <Input
-                                    type="email"
-                                    placeholder="Enter your email"
-                                    className="w-full h-12 bg-white/50 border border-gray-300/50 rounded-sm text-gray-800 placeholder-gray-500 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-gray-400/50 transition-all"
-                                    {...field}
-                                />
-                            </FormControl>
-                            <FormMessage className="text-red-500 text-xs" />
-                        </FormItem>
-                    )}
-                />
+                </div>
+                {errors.name && (
+                    <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
+                )}
             </div>
-            <FormField
-                control={form.control}
-                name="phone"
-                render={({ field }) => (
-                    <FormItem>
-                        <FormLabel className="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">
-                            Phone Number
-                        </FormLabel>
-                        <FormControl>
-                            <Input
-                                type="tel"
-                                placeholder="Enter your phone number"
-                                className="w-full h-12 bg-white/50 border border-gray-300/50 rounded-sm text-gray-800 placeholder-gray-500 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-gray-400/50 transition-all"
-                                {...field}
-                            />
-                        </FormControl>
-                        <FormMessage className="text-red-500 text-xs" />
-                    </FormItem>
+
+            {/* Your email address */}
+            <div className="relative">
+                <label className="font-medium text-gray-900 text-xl flex items-center gap-2">
+                    Enter Your email *
+                </label>
+                <div className="relative">
+                    <input
+                        type="email"
+                        {...register("email", {
+                            required: "This field is required",
+                            pattern: {
+                                value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                                message: "Invalid email address",
+                            },
+                        })}
+                        className={`w-full h-12 px-3 bg-white text-gray-800 border border-gray-300 focus:ring-2 focus:ring-blue-300 focus:border-blue-300 transition-all duration-300 rounded-sm mt-2 pr-10 ${errors.email ? "border-red-500" : ""}`}
+                        placeholder="Enter Your email"
+                    />
+                    {errors.email && (
+                        <svg className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    )}
+                </div>
+                {errors.email && (
+                    <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
                 )}
-            />
-            <FormField
-                control={form.control}
-                name="message"
-                render={({ field }) => (
-                    <FormItem>
-                        <FormLabel className="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">
-                            Message
-                        </FormLabel>
-                        <FormControl>
-                            <Textarea
-                                placeholder="Tell us about your project"
-                                className="w-full  bg-white/50 border border-gray-300/50 rounded-sm text-gray-800 placeholder-gray-500 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-gray-400/50 transition-all min-h-24 resize-none"
-                                {...field}
-                            />
-                        </FormControl>
-                        <FormMessage className="text-red-500 text-xs" />
-                    </FormItem>
+            </div>
+
+            {/* Your phone number */}
+            <div className="relative md:col-span-2">
+                <label className="font-medium text-gray-900 text-xl flex items-center gap-2">
+                    Enter Your phone number *
+                </label>
+                <div className="relative">
+                    <input
+                        type="tel"
+                        {...register("phone", {
+                            required: "This field is required",
+                            pattern: {
+                                value: /^\+[0-9]{10,15}$/,
+                                message: "Invalid phone number (must be + followed by 10-15 digits)",
+                            },
+                        })}
+                        className={`w-full h-12 px-3 bg-white text-gray-800 border border-gray-300 focus:ring-2 focus:ring-blue-300 focus:border-blue-300 transition-all duration-300 rounded-sm mt-2 pr-10 ${errors.phone ? "border-red-500" : ""}`}
+                        placeholder="Enter Your phone number"
+                    />
+                    {errors.phone && (
+                        <svg className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    )}
+                </div>
+                {errors.phone && (
+                    <p className="text-red-500 text-sm mt-1">{errors.phone.message}</p>
                 )}
-            />
-            <motion.div
-                variants={buttonVariants}
-                initial="hidden"
-                animate="visible"
-                whileHover="hover"
-                whileTap="tap"
+            </div>
+
+            {/* Your message */}
+            <div className="md:col-span-2 relative">
+                <label className="font-medium text-gray-900 text-xl flex items-center gap-2">
+                    Your message *
+                </label>
+                <div className="relative">
+                    <textarea
+                        {...register("comment", { required: "This field is required" })}
+                        className={`w-full min-h-24 px-3 pt-2 bg-white text-gray-800 border border-gray-300 focus:ring-2 focus:ring-blue-300 focus:border-blue-300 transition-all duration-300 rounded-sm mt-2 resize-none pr-10 ${errors.comment ? "border-red-500" : ""}`}
+                        placeholder="Your message"
+                    />
+                    {errors.comment && (
+                        <svg className="absolute right-3 top-5 w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    )}
+                </div>
+                {errors.comment && (
+                    <p className="text-red-500 text-sm mt-1">{errors.comment.message}</p>
+                )}
+            </div>
+        </div>
+
+        <motion.div
+            variants={buttonVariants}
+            whileHover={isSubmitted ? {} : "hover"}
+            whileTap={isSubmitted ? {} : "tap"}
+            className="relative"
+        >
+            <button
+                type="submit"
+                disabled={isSubmitted}
+                className={`w-full h-12 text-white text-lg font-semibold rounded-lg shadow-md transition-all duration-300 flex items-center justify-center gap-2 ${isSubmitted
+                    ? "bg-gray-400 cursor-not-allowed"
+                    : "bg-gradient-to-r from-blue-500 to-blue-400 hover:from-blue-600 hover:to-blue-500 hover:shadow-lg"
+                    }`}
             >
-                <Button
-                    type="submit"
-                    className="w-full mt-3 bg-gradient-to-r from-gray-800 to-gray-600 text-white font-semibold h-12 rounded-sm hover:bg-gradient-to-r hover:from-gray-700 hover:to-gray-500 transition-all text-sm sm:text-base"
-                >
-                    Submit Inquiry
-                </Button>
-            </motion.div>
-        </form>
-    </Form>
+                {isSubmitted ? "Submitted" : "Send Me the Quote"}
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                </svg>
+            </button>
+            <motion.div
+                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+                initial={{ x: "-100%" }}
+                whileHover={isSubmitted ? {} : { x: "100%" }}
+                transition={{ duration: 0.5 }}
+            />
+        </motion.div>
+    </motion.form>
 ));
 FormComponent.displayName = 'FormComponent';
 
 export default function HeroSectionWithForm() {
     const [ref, inView] = useInView({ triggerOnce: false, threshold: 0.3 });
 
-    // Initialize form with zod schema
-    const form = useForm({
-        resolver: zodResolver(formSchema),
+    // Add a ref for the form element
+    const formRef = useRef(null);
+
+    // State to track submission status and popup visibility
+    const [isSubmitted, setIsSubmitted] = useState(false);
+    const [showPopup, setShowPopup] = useState(false);
+
+    // Initialize react-hook-form
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        reset,
+    } = useForm({
         defaultValues: {
             name: "",
             email: "",
             phone: "",
-            message: ""
-        }
+            comment: "",
+        },
     });
+
+    // Handle form submission
+    const onSubmit = (data) => {
+        // Simulate successful submission (since we're using a direct form action)
+        setIsSubmitted(true); // Disable the submit button
+        setShowPopup(true); // Show the success popup
+
+        // Clear the form
+        reset({
+            name: "",
+            email: "",
+            phone: "",
+            comment: "",
+        });
+
+        // Submit the form to the specified URL
+        formRef.current.submit();
+
+        // Close the popup after 3 seconds
+        setTimeout(() => {
+            setShowPopup(false);
+        }, 3000);
+    };
 
     return (
         <section ref={ref} className="relative min-h-screen flex items-center justify-center text-black py-12 sm:py-16 md:py-20 px-4 sm:px-6 md:px-8 overflow-hidden bg-black/80">
@@ -183,7 +262,7 @@ export default function HeroSectionWithForm() {
                     ))}
                 </Swiper>
             </div>
-            <div className="relative max-w-7xl mx-auto z-10 px-4 flex flex-col lg:flex-row items-center gap-8 lg:gap-52">
+            <div className="relative max-w-7xl mx-auto z-10 px-4 flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
                 <div className="text-center lg:text-left">
                     <motion.img
                         src="https://funplaysystems.com/images/logo-white@2x.png"
@@ -238,16 +317,22 @@ export default function HeroSectionWithForm() {
                 </div>
                 <div className="lg:w-[80%] w-full">
                     <motion.div
-                        className="bg-gray-200 rounded-sm p-6 sm:p-8 border border-gray-300/50 shadow-2xl max-w-sm sm:max-w-4xl mx-auto lg:mx-0"
-                        variants={textVariants}
+                        className="bg-gray-200 rounded-sm p-6 sm:p-8 border border-gray-300/50 shadow-2xl max-w-5xl mx-auto lg:mx-0"
+                        variants={formVariants}
                         initial="hidden"
                         animate={inView ? "visible" : "hidden"}
-                        transition={{ delay: 0.6 }}
                     >
                         <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-center bg-clip-text text-transparent bg-gradient-to-r from-gray-800 to-gray-600">
                             Enquire Now
                         </h2>
-                        <FormComponent form={form} />
+                        <FormComponent
+                            formRef={formRef}
+                            register={register}
+                            errors={errors}
+                            handleSubmit={handleSubmit}
+                            onSubmit={onSubmit}
+                            isSubmitted={isSubmitted}
+                        />
                     </motion.div>
                 </div>
             </div>
@@ -276,6 +361,38 @@ export default function HeroSectionWithForm() {
                 }}
             />
             <div className="absolute bottom-0 left-0 right-0 h-20 sm:h-24 bg-gradient-to-t from-gray-200/50 to-transparent"></div>
+
+            {/* Popup Message */}
+            {showPopup && (
+                <motion.div
+                    className="fixed inset-0 z-50 flex items-center justify-center"
+                    variants={popupVariants}
+                    initial="hidden"
+                    animate="visible"
+                >
+                    {/* Background Overlay */}
+                    <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
+
+                    {/* Popup Content */}
+                    <div className="relative bg-white h-60 w-[90%] sm:w-5xl rounded-lg shadow-lg z-10 flex flex-col justify-center items-center gap-4 p-6">
+                        <h1 className="text-5xl text-gray-800">Thank You!</h1>
+                        <p className="text-center text-gray-600">
+                            Your submission has been received. We appreciate your feedback and will get back to you shortly.
+                        </p>
+
+                        {/* Close Button */}
+                        <button
+                            onClick={() => setShowPopup(false)}
+                            className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 transition-colors duration-200"
+                            aria-label="Close popup"
+                        >
+                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </motion.div>
+            )}
         </section>
     );
 }

@@ -218,11 +218,11 @@ export default function ProductHighlights() {
                             whileHover="hover"
                         >
                             <div className="relative w-full h-56 sm:h-64 overflow-hidden">
-                                <Image
+                                <img
                                     src={product.image}
                                     alt={`${product.name} playground`}
-                                    fill
-                                    className="object-cover transition-all duration-500 group-hover:scale-105"
+                                    
+                                    className="object-cover transition-all duration-500 group-hover:scale-105 h-full"
                                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-gray-900/40 via-gray-900/10 to-transparent"></div>

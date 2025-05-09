@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { useForm } from "react-hook-form";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 export default function LeadForm() {
     const [ref, inView] = useInView({
@@ -14,11 +14,16 @@ export default function LeadForm() {
     // Add a ref for the form element
     const formRef = useRef(null);
 
+    // State to track submission status and popup visibility
+    const [isSubmitted, setIsSubmitted] = useState(false);
+    const [showPopup, setShowPopup] = useState(false);
+
     // Initialize react-hook-form
     const {
         register,
         handleSubmit,
         formState: { errors },
+        reset,
     } = useForm({
         defaultValues: {
             name: "",
@@ -32,8 +37,29 @@ export default function LeadForm() {
 
     // Handle form submission
     const onSubmit = (data) => {
-        // If validation passes, submit the form to the specified URL
+        // Simulate successful submission (since we're using a direct form action)
+        setIsSubmitted(true); // Disable the submit button
+        setShowPopup(true); // Show the success popup
+
+        // Clear the form
+        reset({
+            name: "",
+            email: "",
+            phone: "",
+            location: "",
+            customerType: "",
+            comment: "",
+        });
+
+        // Optionally submit the form to the specified URL
+        // In a real scenario, you might want to prevent the default form submission
+        // and handle it with fetch to avoid redirect, then show the popup
         formRef.current.submit();
+
+        // Close the popup after 3 seconds
+        setTimeout(() => {
+            setShowPopup(false);
+        }, 3000);
     };
 
     // Animation variants (unchanged)
@@ -71,6 +97,15 @@ export default function LeadForm() {
             transition: { duration: 0.3 }
         },
         tap: { scale: 0.98 }
+    };
+
+    const popupVariants = {
+        hidden: { opacity: 0, y: -20 },
+        visible: {
+            opacity: 1,
+            y: 0,
+            transition: { duration: 0.5, ease: "easeOut" }
+        }
     };
 
     return (
@@ -132,11 +167,6 @@ export default function LeadForm() {
                         animate={inView ? "visible" : "hidden"}
                         onSubmit={handleSubmit(onSubmit)}
                     >
-                        <input
-                            type="hidden"
-                            name="redirect"
-                            value="https://funplaysystems.com/thank-you.html"
-                        />
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             {/* Your name */}
                             <div className="relative">
@@ -260,19 +290,19 @@ export default function LeadForm() {
                                     <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h-4m-6 0H5a2 2 0 01-2-2v-1a2 2 0 012-2h14a2 2 0 012 2v1a2 2 0 01-2 2z"></path>
                                     </svg>
-                                    Category *
+                                    Type of Installation *
                                 </label>
                                 <div className="relative">
                                     <select
                                         {...register("customerType", { required: "This field is required" })}
                                         className={`w-full h-16 px-3 bg-white text-gray-800 border border-gray-300 focus:ring-2 focus:ring-blue-300 focus:border-blue-300 transition-all duration-300 rounded-sm mt-2 pr-10 ${errors.customerType ? "border-red-500" : ""}`}
                                     >
-                                        <option value="" disabled>Select category</option>
-                                        <option value="Residential Playground">Residential Playground</option>
-                                        <option value="Commercial Play Area">Commercial Play Area</option>
-                                        <option value="School Play System">School Play System</option>
-                                        <option value="Community Park">Community Park</option>
-                                        <option value="Custom Design">Custom Design</option>
+                                        <option value="" disabled>Select Type</option>
+                                        <option value="Preschool">Preschool</option>
+                                        <option value="School">School</option>
+                                        <option value="Park">Park</option>
+                                        <option value="Apartment">Apartment</option>
+                                        <option value="Other">Other</option>
                                     </select>
                                     {errors.customerType && (
                                         <svg className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -338,6 +368,38 @@ export default function LeadForm() {
                             * We respect your privacy. Your information will not be shared.
                         </p>
                     </motion.form>
+
+                    {/* Popup Message */}
+                    {showPopup && (
+                        <motion.div
+                            className="fixed inset-0 z-50 flex items-center justify-center"
+                            variants={popupVariants}
+                            initial="hidden"
+                            animate="visible"
+                        >
+                            {/* Background Overlay */}
+                            <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
+
+                            {/* Popup Content */}
+                            <div className="relative bg-white h-60 w-5xl  rounded-lg shadow-lg z-10 flex flex-col justify-center items-center gap-4 p-6">
+                                <h1 className="text-5xl  text-gray-800">Thank You!</h1>
+                                <p className="text-center text-gray-600">
+                                    Your submission has been received. We appreciate your feedback and will get back to you shortly.
+                                </p>
+
+                                {/* Close Button */}
+                                <button
+                                    onClick={() => setShowPopup(false)}
+                                    className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 transition-colors duration-200"
+                                    aria-label="Close popup"
+                                >
+                                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </motion.div>
+                    )}
                 </div>
             </section>
         </div>
