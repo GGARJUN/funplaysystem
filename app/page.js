@@ -23,7 +23,12 @@ export default function Home() {
       <Testimonials />
       <LogoSlide />
       <LeadForm />
-      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d242.87423770914756!2d80.1941464!3d13.099959100000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a5265821eda188b%3A0x80e65cd6ee68c39a!2sSenate%20Space%2002!5e0!3m2!1sen!2sin!4v1742927429056!5m2!1sen!2sin" width="800" height="500" loading="lazy" className="w-full"></iframe>
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3763.9358241664922!2d72.90408581006024!3d19.371931281818988!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7a549da045c69%3A0x4a34161c050b4718!2sFunplay%20System%20Pvt%20Ltd%20-%20Outdoor%20Playground%20Equipment%20Designer%20and%20Manufacturer%20Mumbai%20India%20%7C%20Schools%2C%20Commercial%2C%20Builders!5e0!3m2!1sen!2sin!4v1746788591038!5m2!1sen!2sin" width="800"
+        height="500"
+        loading="lazy"
+        className="w-full"
+        title="Funplay System Pvt Ltd Location"
+        allowFullScreen />
       <FinalCTA />
     </div>
   );

@@ -59,7 +59,7 @@ const New = () => {
 
     return (
         <div className="relative bg-[url('https://funplaysystems.com/images/Vector.svg')] bg-blue-200/40 bg-repeat-x bg-cover">
-            <section ref={ref} className="py-16 overflow-hidden relative">
+            <section ref={ref} className="py-20 overflow-hidden relative">
                 <motion.div className="absolute inset-0 bg-gradient-to-br from-blue-50/20 to-transparent" variants={glowVariants} animate={inView ? "animate" : {}} />
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl relative z-10">
                     <motion.h2
