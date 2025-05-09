@@ -140,13 +140,32 @@ const PlaygroundsSection = () => {
                     animate={inView ? "animate" : {}}
                 />
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl relative z-10">
+                                    {/* <motion.h2
+                                        className="text-4xl sm:text-5xl text-center font-bold mb-8 tracking-tight"
+                                        initial={{ opacity: 0, y: -30 }}
+                                        animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: -30 }}
+                                        transition={{ duration: 0.8 }}
+                                    >
+                                        <span className="bg-clip-text text-transparent bg-gradient-to-r from-black to-gray-900">
+                                        Playgrounds That Fit Every Vision
+                                        </span>
+                                    </motion.h2>
+                    
+                                    <motion.div
+                                        className="w-40 h-1 bg-gradient-to-r from-black/0 via-gray-900/80 to-indigo-300/0 mx-auto mt-6 rounded-full"
+                                        initial={{ scaleX: 0 }}
+                                        animate={isVisible ? { scaleX: 1 } : { scaleX: 0 }}
+                                        transition={{ duration: 1, delay: 0.5 }}
+                                    /> */}
                     <motion.h2
                         className="text-3xl sm:text-4xl md:text-5xl text-center font-bold mb-8 tracking-tight font-sans bg-clip-text text-transparent bg-gradient-to-r from-black to-gray-900"
                         variants={headingVariants}
                         initial="hidden"
                         animate={inView ? "visible" : "hidden"}
                     >
-                        Playgrounds That Fit Every Vision
+                        <span className="bg-clip-text text-transparent bg-gradient-to-r from-black to-gray-900">
+                                        Playgrounds That Fit Every Vision
+                                        </span>
                     </motion.h2>
                     <motion.div
                         className="w-40 h-1 bg-gradient-to-r from-black/0 via-gray-900/80 to-indigo-300/0 mx-auto mt-8 rounded-full"

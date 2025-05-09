@@ -62,7 +62,7 @@ function LogoSlide() {
         { img: "/ryan.webp" },
         { img: "/sangini.jpg" },
         { img: "/schmitten.jpg" },
-        { img: "/shyam.webp" },
+        // { img: "/shyam.webp" },
         { img: "/velammal.webp" },
         { img: "/welmont.webp" },
     ];
@@ -88,10 +88,10 @@ function LogoSlide() {
             <Swiper
                 modules={[Autoplay, Pagination]}
                 spaceBetween={30}
-                slidesPerView={4}
+                slidesPerView={3}
                 loop={true}
                 autoplay={{
-                    delay: 3000,
+                    delay: 2000,
                     disableOnInteraction: false,
                 }}
                 pagination={{ clickable: true }}
@@ -99,12 +99,12 @@ function LogoSlide() {
             >
                 {clients.map((client, index) => (
                     <SwiperSlide key={index}>
-                        <div className="flex justify-center">
-                            <div className="bg-white rounded-3xl px-4 py-6 w-80 flex items-center justify-center transition-all duration-300 ">
+                        <div className="flex justify-center ">
+                            <div className="bg-gray-100 rounded-3xl px-4 py-6 w-96 flex items-center justify-center transition-all duration-300 ">
                                 <img
                                     src={client.img}
                                     alt={client.alt || `Client ${index + 1}`}
-                                    className="h-20 w-auto  transition-all duration-300 object-cover"
+                                    className="h-20  transition-all duration-300 object-cover"
                                 />
                             </div>
                         </div>

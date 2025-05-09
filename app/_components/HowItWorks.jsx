@@ -83,7 +83,7 @@ const ServiceCard = memo(({ service, index }) => {
             initial="hidden"
             animate={inView ? "visible" : "hidden"}
             whileHover="hover"
-            
+
         >
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between rounded-lg py-6 sm:py-8 px-4 sm:px-6">
                 <motion.div
@@ -112,12 +112,12 @@ const ServiceCard = memo(({ service, index }) => {
                 >
                     {service.desc}
                 </motion.p>
-                <motion.div
+                {/* <motion.div
                     className="ml-0 sm:ml-4 md:ml-6 mt-4 sm:mt-0 p-2 sm:p-3 rounded-lg"
                     variants={arrowVariants}
                 >
                     <ArrowUpRight className="w-5 sm:w-6 h-5 sm:h-6 text-gray-600 group-hover:text-white" />
-                </motion.div>
+                </motion.div> */}
             </div>
             <div className="border-2 border-gray-600 rounded-full mt-2" />
         </motion.div>
@@ -149,7 +149,10 @@ const ServicesSection = () => {
                     initial="hidden"
                     animate={inView ? "visible" : "hidden"}
                 >
-                    From Concept to Joy – The FunPlay Way
+                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-black to-gray-900">
+                        From Concept to Joy – The FunPlay Way
+                    </span>
+
                 </motion.h2>
                 <motion.div
                     className="w-32 sm:w-40 h-1 bg-gradient-to-r from-black/0 via-gray-900/80 to-indigo-300/0 mx-auto mb-10 sm:mb-12 md:mb-16 rounded-full"

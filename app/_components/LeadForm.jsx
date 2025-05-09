@@ -147,8 +147,6 @@ export default function LeadForm() {
     return (
         <div className="relative bg-[url('https://funplaysystems.com/images/Group77.svg')] bg-blue-200/20 bg-no-repeat bg-cover">
             <section ref={ref} className="relative py-16 sm:py-20 px-4 sm:px-6 overflow-hidden">
-                {/* Background Decorative Elements */}
-                <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJncmFpbiIgd2lkdGg9IjEwIiBoZWlnaHQ9IjEwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNIDAgMTAgTCAxMCAwIE0gLTEgMSBMIDEgLTEgTSAxMSA5IEwgOSAxMSIgc3Ryb2tlPSJyZ2JhKDAsMCwwLDAuMDMpIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IGZpbGw9InVybCgjZ3JhaW4pIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIi8+PC9zdmc+')] opacity-5"></div>
 
                 {/* Floating Elements */}
                 <motion.div
@@ -184,7 +182,10 @@ export default function LeadForm() {
                             initial="hidden"
                             animate={inView ? "visible" : "hidden"}
                         >
-                            Get a Free Custom Quote in 30 Seconds
+                            <span className="bg-clip-text text-transparent bg-gradient-to-r from-black to-gray-900">
+                                Get a Free Custom Quote in 30 Seconds
+                            </span>
+
                         </motion.h2>
                         <motion.div
                             className="w-32 sm:w-40 h-1 bg-gradient-to-r from-gray-300/0 via-gray-600/80 to-gray-300/0 mx-auto mt-6 sm:mt-8 rounded-full"
@@ -215,7 +216,7 @@ export default function LeadForm() {
                                             <FormControl>
                                                 <Input
                                                     placeholder="John Doe"
-                                                    className="h-20 bg-white text-gray-800 border-gray-300 focus:ring-blue-300 focus:border-blue-300 transition-all duration-300 rounded-none"
+                                                    className="h-16  bg-white text-gray-800 border-gray-300 focus:ring-blue-300 focus:border-blue-300 transition-all duration-300 rounded-sm"
                                                     {...field}
                                                 />
                                             </FormControl>
@@ -236,7 +237,7 @@ export default function LeadForm() {
                                             <FormControl>
                                                 <Input
                                                     placeholder="+91 9876543210"
-                                                    className="h-20 bg-white text-gray-800 border-gray-300 focus:ring-blue-300 focus:border-blue-300 transition-all duration-300 rounded-none"
+                                                    className="h-16  bg-white text-gray-800 border-gray-300 focus:ring-blue-300 focus:border-blue-300 transition-all duration-300 rounded-sm"
                                                     {...field}
                                                 />
                                             </FormControl>
@@ -258,7 +259,7 @@ export default function LeadForm() {
                                                 <Input
                                                     placeholder="your@email.com"
                                                     type="email"
-                                                    className="h-20 bg-white text-gray-800 border-gray-300 focus:ring-blue-300 focus:border-blue-300 transition-all duration-300 rounded-none"
+                                                    className="h-16  bg-white text-gray-800 border-gray-300 focus:ring-blue-300 focus:border-blue-300 transition-all duration-300 rounded-sm"
                                                     {...field}
                                                 />
                                             </FormControl>
@@ -279,7 +280,7 @@ export default function LeadForm() {
                                             <FormControl>
                                                 <Input
                                                     placeholder="Mumbai, Maharashtra"
-                                                    className="h-20 bg-white text-gray-800 border-gray-300 focus:ring-blue-300 focus:border-blue-300 transition-all duration-300 rounded-none"
+                                                    className="h-16  bg-white text-gray-800 border-gray-300 focus:ring-blue-300 focus:border-blue-300 transition-all duration-300 rounded-sm"
                                                     {...field}
                                                 />
                                             </FormControl>
@@ -299,7 +300,7 @@ export default function LeadForm() {
                                             </FormLabel>
                                             <Select onValueChange={field.onChange} value={field.value}>
                                                 <FormControl>
-                                                    <SelectTrigger className="h-20 py-10 w-full bg-white text-gray-800 border-gray-300 focus:ring-blue-300 focus:border-blue-300 transition-all duration-300 rounded-none">
+                                                    <SelectTrigger className="h-16 py-8 w-full bg-white text-gray-800 border-gray-300 focus:ring-blue-300 focus:border-blue-300 transition-all duration-300 rounded-sm">
                                                         <SelectValue placeholder="Select project type" />
                                                     </SelectTrigger>
                                                 </FormControl>
@@ -330,7 +331,7 @@ export default function LeadForm() {
                                             <FormControl>
                                                 <Textarea
                                                     placeholder="Tell us about your project requirements..."
-                                                    className="min-h-32 bg-white text-gray-800 border-gray-300 focus:ring-blue-300 focus:border-blue-300 transition-all duration-300 rounded-none"
+                                                    className="min-h-32 bg-white text-gray-800 border-gray-300 focus:ring-blue-300 focus:border-blue-300 transition-all duration-300 rounded-sm resize-none"
                                                     {...field}
                                                 />
                                             </FormControl>
@@ -348,7 +349,7 @@ export default function LeadForm() {
                             >
                                 <Button
                                     type="submit"
-                                    className="w-full h-20 bg-gradient-to-r from-blue-500 to-blue-400 hover:from-blue-600 hover:to-blue-500 text-white text-lg font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
+                                    className="w-full h-16 bg-gradient-to-r from-blue-500 to-blue-400 hover:from-blue-600 hover:to-blue-500 text-white text-lg font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
                                     disabled={isLoading}
                                 >
                                     {isLoading ? (
