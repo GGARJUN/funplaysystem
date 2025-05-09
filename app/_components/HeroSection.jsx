@@ -136,7 +136,7 @@ const FormComponent = memo(({ form }) => (
             >
                 <Button
                     type="submit"
-                    className="w-full mt-3 bg-gradient-to-r from-gray-800 to-gray-600 text-white font-semibold py-2 sm:py-3 rounded-lg hover:bg-gradient-to-r hover:from-gray-700 hover:to-gray-500 transition-all text-sm sm:text-base"
+                    className="w-full mt-3 bg-gradient-to-r from-gray-800 to-gray-600 text-white font-semibold h-12 rounded-sm hover:bg-gradient-to-r hover:from-gray-700 hover:to-gray-500 transition-all text-sm sm:text-base"
                 >
                     Submit Inquiry
                 </Button>
